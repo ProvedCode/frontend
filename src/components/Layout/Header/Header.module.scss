@@ -73,33 +73,7 @@ $purple: #7367f0;
 }
 
 .btn {
-    color: aliceblue;
-    font-family: "Plus Jakarta Sans";
-    width: 125px;
+    width: 130px;
     height: 40px;
-    border-radius: 10px;
-    border: 3px solid transparent;
-    background-image: linear-gradient(0deg, #000, #000),
-        linear-gradient(180deg, #ce9ffc 0%, #a582f7 50.52%, #7367f0 100%);
-    background-origin: border-box;
-    background-clip: content-box, border-box;
-    background-size: 100% 100%, 100% 100%;
-}
-@media (min-width: 992px) {
-    .btn:hover {
-        color: white;
-        background-size: 0% 0%, 100% 100%;
-        animation: btn_animation 0.5s ease forwards;
-    }
-}
-@keyframes btn_animation {
-    0% {
-        background-position: 0% 0%;
-    }
-    50% {
-        background-position: 50% 50%;
-    }
-    100% {
-        background-position: 100% 100%;
-    }
+    border-radius: 50%;
 }

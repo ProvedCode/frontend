@@ -1,18 +1,27 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Layout } from "../Layout";
-import { SearchPanel } from "./SearchPanel";
-import { Filters } from "./Filters";
-import { TalentsList } from "./TalentsList";
+import { SearchPanel } from "./components/SearchPanel";
+import { Filters } from "./components/Filters";
+import { TalentsList } from "./components/TalentsList";
+import { Title } from "./components/Title";
 import styles from "./TalentsListPage.module.scss";
-import { Title } from "./Title";
+import data from './shared/data/response.json';
+
+
 export function TalentsListPage() {
+	const [talents, setTalents] = useState([]);
+
+	useEffect(() => {
+		setTalents(data.content);
+	}, []);
+
 	return (
 		<Layout>
 			<div className={styles.grid_container}>
 				<SearchPanel />
 				<Title />
-				<Filters />
-				<TalentsList />
+				<Filters talents={talents} />
+				<TalentsList talents={talents} />
 			</div>
 		</Layout>
 	);

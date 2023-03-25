@@ -1,4 +1,4 @@
-import { Button, Input } from "../../../shared/components";
+import { Button, Input } from "../../../../shared/components";
 import s from "./SearchPanel.module.scss";
 
 export function SearchPanel() {

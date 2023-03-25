@@ -14,7 +14,12 @@ export function FilterValue({ value }) {
 
 	return (
 		<div className={s.filter_value} onClick={toggleChecked}>
-			<input type="checkbox" id={inputId} checked={checked}/>
+			<input
+				type="checkbox"
+				id={inputId}
+				checked={checked}
+				onChange={toggleChecked}
+			/>
 			<label htmlFor={inputId} />
 			<div>{value}</div>
 		</div>

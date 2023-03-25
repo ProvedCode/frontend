@@ -73,10 +73,6 @@ export function Filters({ talents }) {
 		setFilters(newArr);
 	}, [parseFiltersFields, talents]);
 
-	useEffect(() => {
-		console.log(filters);
-	}, [filters]);
-
 	return (
 		<div className={s.filters_block}>
 			<div className={s.title}>Filters</div>

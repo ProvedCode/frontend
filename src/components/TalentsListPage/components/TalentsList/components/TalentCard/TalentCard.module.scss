@@ -73,3 +73,19 @@
 	background-clip: text;
     color: transparent;
 }
+.skills{
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+    max-width: 300px;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.skill{
+    font-size: 14px;
+    background-color: #686868;
+    border-radius: 30px;
+    border: 2px solid #888888;
+    padding: 0px 10px;
+}

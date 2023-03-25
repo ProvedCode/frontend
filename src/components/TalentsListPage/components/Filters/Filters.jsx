@@ -4,19 +4,29 @@ import { FilterValue } from "./components/FilterValue";
 import { SortValue } from "./components/SortValue";
 import s from "./Filters.module.scss";
 
-const exceptions = ["id", "firstname", "lastname", "image"];
+const filterExceptions = ["id", "firstname", "lastname", "image"];
+const sortFields = ["name", "specialization"];
 
 export function Filters({ talents }) {
 	const [filters, setFilters] = useState([]);
+	const [selectedSort, setSelectedSort] = useState("");
 
+	const handleSelect = useCallback((sort) => {
+		if (selectedSort === sort) {
+			setSelectedSort("");
+		} else {			
+			setSelectedSort((prev) => sort);
+		}
+	});
 
 	const parseFiltersFields = useCallback(() => {
 		let filtersArr = []; // итоговый массив
 		let fields = []; // массив для названий полей по которым будет осуществляться фильтрация
 		for (let i = 0; i < talents.length; i++) {
 			for (const key of Object.keys(talents[i])) {
-				if (!fields.includes(key) && !exceptions.includes(key)) {  // выбираем поля по которым будем фильтровать учитывая исключения
-					fields.push(key);					
+				if (!fields.includes(key) && !filterExceptions.includes(key)) {
+					// выбираем поля по которым будем фильтровать учитывая исключения
+					fields.push(key);
 				}
 			}
 		}
@@ -24,34 +34,39 @@ export function Filters({ talents }) {
 			let values = []; // массив в котором будут храниться значения фильтрации для каждого поля
 			for (let j = 0; j < talents.length; j++) {
 				const val = talents[j][fields[i]]; // существующие значения (перед добавлением надо проверить дубликаты)
-				switch (typeof val) {	// значения могут быть либо в строков виде, либо в виде массива
+				switch (
+					typeof val // значения могут быть либо в строков виде, либо в виде массива
+				) {
 					case "object":
 						if (val.length !== 0) {
 							for (const v of val) {
-								if (!values.includes(v)) { // чтобы собрать итоговый массив значений проверяем дубликаты
+								if (!values.includes(v)) {
+									// чтобы собрать итоговый массив значений проверяем дубликаты
 									values.push(v);
-								}								
+								}
 							}
 						}
 						break;
 
 					case "string":
-						if (!values.includes(val)) { // также проверяем дубликаты
-							values.push(val); 
+						if (!values.includes(val)) {
+							// также проверяем дубликаты
+							values.push(val);
 						}
 						break;
-						
+
 					default:
 						break;
 				}
 			}
-			filtersArr.push({   // формируем итоговый массив объектов из полей и их возможных значений (уже без дубликатов)
+			filtersArr.push({
+				// формируем итоговый массив объектов из полей и их возможных значений (уже без дубликатов)
 				field: fields[i],
-				values: values
+				values: values,
 			});
 		}
 		return filtersArr;
-	}, [talents])
+	}, [talents]);
 
 	useEffect(() => {
 		const newArr = parseFiltersFields();
@@ -60,12 +75,22 @@ export function Filters({ talents }) {
 
 	useEffect(() => {
 		console.log(filters);
-	}, [filters])
+	}, [filters]);
 
 	return (
 		<div className={s.filters_block}>
 			<div className={s.title}>Filters</div>
 			<div className={s.filters}>
+				<Filter field={"Sort by"}>
+					{sortFields.map((sort) => (
+						<SortValue
+							selected={selectedSort}
+							key={sort}
+							value={sort}
+							onClick={() => handleSelect(sort)}
+						/>
+					))}
+				</Filter>
 				{filters.map((filter, index) => {
 					return (
 						<Filter key={index} field={filter.field}>

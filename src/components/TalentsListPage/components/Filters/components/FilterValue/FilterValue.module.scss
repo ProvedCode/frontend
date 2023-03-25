@@ -4,6 +4,8 @@
 	align-items: center;
 	justify-content: flex-start;
 	gap: 15px;
+	padding: 5px 0px;
+	cursor: pointer;
 	& > input {
 		display: none;
 		& + label::before {
@@ -23,5 +25,6 @@
 	}
 	& > div {
 		text-transform: capitalize;
+		user-select: none;
 	}
 }

@@ -1,31 +1,20 @@
-import styles from "./TalentsList.module.scss";
-import { TalentCard } from "./TalentCard/TalentCard";
-import talents from "./shared/data/talents.json";
+import s from "./TalentsList.module.scss";
+import { TalentCard } from "./components/TalentCard";
+import data from "./shared/data/response.json";
+import { useEffect, useState } from "react";
 
 export function TalentsList() {
-    return (
-        <div className={styles["talents-lists"]}>
-            {talents.map(
-                ({
-                    id,
-                    image,
-                    firstname,
-                    lastname,
-                    skills,
-                    specialization,
-                }) => {
-                    return (
-                        <TalentCard
-                            key={id}
-                            image={image}
-                            firstname={firstname}
-                            lastname={lastname}
-                            skills={skills}
-                            specialization={specialization}
-                        />
-                    );
-                }
-            )}
-        </div>
-    );
+	const [talents, setTalents] = useState([]);
+
+	useEffect(() => {
+		setTalents(data.content);
+	}, []);
+
+	return (
+		<div className={s.talents_list}>
+			{talents.map((talent) => (
+				<TalentCard key={talent.id} talent={talent} />
+			))}
+		</div>
+	);
 }

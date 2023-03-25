@@ -1,24 +1,19 @@
 import React from "react";
 import { Layout } from "../Layout";
 import { SearchPanel } from "./SearchPanel";
-import { Filter } from "./Filter";
+import { Filters } from "./Filters";
 import { TalentsList } from "./TalentsList";
 import styles from "./TalentsListPage.module.scss";
+import { Title } from "./Title";
 export function TalentsListPage() {
-    return (
-        <Layout>
-            <SearchPanel />
-
-            <div className={styles["grid-container"]}>
-                <div className={styles["grid-filter"]}>
-                    <div className={styles["page_title"]}>
-                        <span> Talents</span> Found
-                    </div>
-                    <Filter />
-                </div>
-
-                <TalentsList />
-            </div>
-        </Layout>
-    );
+	return (
+		<Layout>
+			<div className={styles.grid_container}>
+				<SearchPanel />
+				<Title />
+				<Filters />
+				<TalentsList />
+			</div>
+		</Layout>
+	);
 }

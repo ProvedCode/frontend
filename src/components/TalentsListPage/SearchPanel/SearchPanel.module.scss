@@ -1,8 +1,9 @@
-.search-panel {
+.search_panel {
+    grid-area: search;
     display: flex;
     justify-content: space-between;
-    align-items: stretch;
-    margin-top: 70px;
+    align-items: center;
+    height: 200px;
 }
 
 .input {

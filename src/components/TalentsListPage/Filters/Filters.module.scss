@@ -1,7 +1,9 @@
-.filters {
+.filters_block {
+    grid-area: filters;
     display: flex;
     flex-direction: column;
-    width: 310px;
+    width: 290px;
+    margin-right: 30px;
 }
 
 .title {

@@ -12,7 +12,7 @@ $purple: #7367f0;
         linear-gradient(90deg, #a767e8 0%, #a582f7 50.52%, #7367f0 100%) border-box;
 	font-weight: 500;
 	z-index: 30;
-	border-bottom: 2px solid transparent;
+	border-bottom: 1px solid transparent;
 	& > div:first-child {
 		display: flex;
 		flex-direction: row;

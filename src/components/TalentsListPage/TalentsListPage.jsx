@@ -17,12 +17,13 @@ export function TalentsListPage() {
 
 	return (
 		<Layout>
-			<div className={styles.grid_container}>
+			{/* <div className={styles.grid_container}>
 				<SearchPanel />
 				<Title />
 				<Filters talents={talents} />
 				<TalentsList talents={talents} />
-			</div>
+			</div> */}
+				<TalentsList talents={talents} /> {/*temporarily*/}
 		</Layout>
 	);
 }

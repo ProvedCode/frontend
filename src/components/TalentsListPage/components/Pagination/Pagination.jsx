@@ -2,8 +2,9 @@ import React, { useEffect, useMemo, useState } from "react";
 import { PageNumber } from "./components/PageNumber";
 import s from "./Pagination.module.scss";
 import { Button } from "../../../../shared/components";
+import { Link } from "react-router-dom";
 
-export function Pagination({ countOfPages, page, setPage, size}) {
+export function Pagination({ countOfPages, page, setPage, size }) {
 	const pageNumbers = useMemo(() => {
 		let arr = [];
 		for (let i = 0; i < countOfPages; i++) {
@@ -12,24 +13,22 @@ export function Pagination({ countOfPages, page, setPage, size}) {
 		return arr;
 	}, [countOfPages]);
 
-	const handlerPage = (i) => {
+	const handlerPage = () => {
 		window.scrollTo({
 			top: 0,
 			left: 0,
 			behavior: "smooth",
 		});
-		if (i >= 0 && i < countOfPages) {
-			setPage(i);
-		}
 	};
 
 	return (
 		<>
 			{countOfPages > 1 ? (
 				<div className={s.pagination}>
-					<Button
+					<Link
+						to={`/talents?page=${page - 1 >= 0 ? page - 1 : page}&size=${size}`}
 						className={s.left}
-						onClick={() => handlerPage(page - 1)}></Button>
+						onClick={handlerPage}></Link>
 					<div className={s.pages}>
 						{pageNumbers.map((number, index) => {
 							if (index >= page - 1 && index <= page + 1) {
@@ -96,9 +95,12 @@ export function Pagination({ countOfPages, page, setPage, size}) {
 							return "";
 						})}
 					</div>
-					<Button
+					<Link
+						to={`/talents?page=${
+							page + 1 < countOfPages ? page + 1 : page
+						}&size=${size}`}
 						className={s.right}
-						onClick={() => handlerPage(page + 1)}></Button>
+						onClick={handlerPage}></Link>
 				</div>
 			) : (
 				""

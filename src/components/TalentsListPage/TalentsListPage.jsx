@@ -23,12 +23,12 @@ export function TalentsListPage() {
 
 	useEffect(() => {
 		if (searchParams.has("page")) {
-			setPage(searchParams.get("page"));
+			setPage(Number(searchParams.get("page")));
 		} else {
 			searchParams.set("page", page);
 		}
 		if (searchParams.has("size")) {
-			setSize(searchParams.get("size"));
+			setSize(Number(searchParams.get("size")));
 		} else {
 			searchParams.set("size", size);
 		}

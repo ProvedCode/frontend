@@ -8,9 +8,12 @@ import { Register } from "./components/Register/Register";
 export function AuthModal() {
 	const location = useLocation();
 	const navigate = useNavigate();
+
+
+
 	const [isOpen, setIsOpen] = useState(false);
 	const windowRef = useRef();
-	const [login, setLogin] = useState(true);
+	const [showLoginForm, setShowLoginForm] = useState(true);
 
 	const showModal = useCallback(() => {
 		setIsOpen(true);
@@ -23,11 +26,12 @@ export function AuthModal() {
 
 	useEffect(() => {
 		if (location.hash.includes("auth")) {
+			// console.log(location.state?.from?.pathname);
 			showModal();
 		} else {
 			hideModal();
 		}
-	}, [hideModal, location.hash, showModal]);
+	}, [hideModal, location.hash, location.state?.from?.pathname, showModal]);
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -48,13 +52,13 @@ export function AuthModal() {
 					<div className={s.header}>
 						<div className={s.header_btns}>
 							<button
-								className={`${s.header_btn} ${login ? s.active : ""}`}
-								onClick={() => setLogin(true)}>
+								className={`${s.header_btn} ${showLoginForm ? s.active : ""}`}
+								onClick={() => setShowLoginForm(true)}>
 								Login
 							</button>
 							<button
-								className={`${s.header_btn} ${!login ? s.active : ""} `}
-								onClick={() => setLogin(false)}>
+								className={`${s.header_btn} ${!showLoginForm ? s.active : ""} `}
+								onClick={() => setShowLoginForm(false)}>
 								Register
 							</button>
 						</div>
@@ -64,7 +68,7 @@ export function AuthModal() {
 							&#215;
 						</button>
 					</div>
-					<div className={s.body}>{login ? <Login /> : <Register />}</div>
+					<div className={s.body}>{showLoginForm ? <Login /> : <Register />}</div>
 				</div>
 			</div>
 		</div>

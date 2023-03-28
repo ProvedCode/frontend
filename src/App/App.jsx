@@ -1,6 +1,15 @@
+import { Routes, Route } from "react-router-dom";
 import { TalentsListPage } from "../components/TalentsListPage";
 import "./App.scss";
 
 export function App() {
-    return <TalentsListPage />;
+    return(
+        <Routes>
+            <Route path="/" element={<TalentsListPage />}/>
+            <Route path="/talents" element={<TalentsListPage />}/>
+            <Route path="/proofs" element={<TalentsListPage />}/>
+            {/* <Route path="/talents/:id" element={<TalentPage />}/> */}
+            {/* <Route path="/*" element={<NotFoundPage />}/> */}
+        </Routes>
+    );
 }

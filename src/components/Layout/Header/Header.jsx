@@ -1,4 +1,6 @@
 import { useMemo } from "react";
+import { Link } from "react-router-dom";
+
 import styles from "./Header.module.scss";
 import { Button } from "../../../shared/components";
 
@@ -16,13 +18,13 @@ export function Header() {
 		<header className={styles.header}>
 			<div className="__container">
 				<div className={styles.logo}>
-					Proved<span>Code</span>
+					<Link to="/">Proved<span>Code</span></Link>
 				</div>
 				<nav className={styles.nav}>
 					{menuItems.map(({ title, link }, index) => (
-						<a href={link} key={index}>
+						<Link to={link} key={index}>
 							{title}
-						</a>
+						</Link>
 					))}
 				</nav>
 				<div className={styles.btns}>

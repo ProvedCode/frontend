@@ -3,7 +3,7 @@ import s from "./TalentCard.module.scss";
 
 export function TalentCard({ talent }) {
 	return (
-		<Link to="/talents" className={s.talent_card}>
+		<Link to={`/talents/${talent.id}`} className={s.talent_card}>
 			<div className={s.photo}>
 				<img src={talent.image} alt="talent_photo" />
 			</div>

@@ -3,7 +3,7 @@ import { PageNumber } from "./components/PageNumber";
 import s from "./Pagination.module.scss";
 import { Button } from "../../../../shared/components";
 
-export function Pagination({ countOfPages, page, setPage }) {
+export function Pagination({ countOfPages, page, setPage, size}) {
 	const pageNumbers = useMemo(() => {
 		let arr = [];
 		for (let i = 0; i < countOfPages; i++) {
@@ -39,6 +39,7 @@ export function Pagination({ countOfPages, page, setPage }) {
 										key={index}
 										index={index}
 										page={page}
+										size={size}
 										pageNumbers={pageNumbers}
 										number={number}
 										handlerPage={handlerPage}
@@ -53,6 +54,7 @@ export function Pagination({ countOfPages, page, setPage }) {
 											key={index}
 											index={index}
 											page={page}
+											size={size}
 											pageNumbers={pageNumbers}
 											number={number}
 											handlerPage={handlerPage}
@@ -67,6 +69,7 @@ export function Pagination({ countOfPages, page, setPage }) {
 										key={index}
 										index={index}
 										page={page}
+										size={size}
 										pageNumbers={pageNumbers}
 										number={number}
 										handlerPage={handlerPage}
@@ -83,6 +86,7 @@ export function Pagination({ countOfPages, page, setPage }) {
 										key={index}
 										index={index}
 										page={page}
+										size={size}
 										pageNumbers={pageNumbers}
 										number={number}
 										handlerPage={handlerPage}

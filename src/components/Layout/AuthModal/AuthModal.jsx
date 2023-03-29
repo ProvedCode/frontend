@@ -9,8 +9,6 @@ export function AuthModal() {
 	const location = useLocation();
 	const navigate = useNavigate();
 
-
-
 	const [isOpen, setIsOpen] = useState(false);
 	const windowRef = useRef();
 	const [showLoginForm, setShowLoginForm] = useState(true);
@@ -36,12 +34,12 @@ export function AuthModal() {
 	useEffect(() => {
 		const handleClickOutside = (e) => {
 			if (!windowRef.current.contains(e.target)) {
-				navigate(location.pathname, { replace: true });
+				navigate(location.pathname + location.search, { replace: true });
 			}
 		};
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => document.removeEventListener("mousedown", handleClickOutside);
-	}, [hideModal, location.pathname, navigate]);
+	}, [hideModal, location.pathname, location.search, navigate]);
 
 	return (
 		<div className={`${s.modal} ${isOpen ? s.show : s.hide}`}>

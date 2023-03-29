@@ -6,11 +6,13 @@ import { Footer } from "./Footer";
 import { AuthModal } from "./AuthModal";
 import { Outlet } from "react-router-dom";
 
+
 export function Layout({ children }) {
     return (
         <div className={styles.wrapper}>
             <Header />
             <AuthModal />
+
             <Main>
                 <Outlet />
             </Main>

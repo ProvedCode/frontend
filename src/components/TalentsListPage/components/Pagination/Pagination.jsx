@@ -4,9 +4,12 @@ import s from "./Pagination.module.scss";
 import { Link } from "react-router-dom";
 import { TalentsContext } from "../../../../context/TalentsContext";
 import { Button } from "../../../../shared/components";
+import { Link } from "react-router-dom";
+
 
 export function Pagination() {
 	const { countOfPages, page, size, setPage } = useContext(TalentsContext);
+
 
 	const pageNumbers = useMemo(() => {
 		let arr = [];
@@ -16,24 +19,23 @@ export function Pagination() {
 		return arr;
 	}, [countOfPages]);
 
-	const handlerPage = (i) => {
+	const handlerPage = () => {
 		window.scrollTo({
 			top: 0,
 			left: 0,
 			behavior: "smooth",
 		});
-		if (i >= 0 && i < countOfPages) {
-			setPage(i);
-		}
 	};
 
 	return (
 		<>
 			{countOfPages > 1 ? (
 				<div className={s.pagination}>
+
 					<Button						
 						className={s.left}
 						onClick={()=>handlerPage(page-1)}></Button>
+
 					<div className={s.pages}>
 						{pageNumbers.map((number, index) => {
 							if (index >= page - 1 && index <= page + 1) {
@@ -103,6 +105,7 @@ export function Pagination() {
 					<Button						
 						className={s.right}
 						onClick={()=>handlerPage(page+1)}></Button>
+
 				</div>
 			) : (
 				""

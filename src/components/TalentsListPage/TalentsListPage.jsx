@@ -6,6 +6,7 @@ import { Title } from "./components/Title";
 import styles from "./TalentsListPage.module.scss";
 import { Pagination } from "./components/Pagination/Pagination";
 
+
 export function TalentsListPage() {
 
 	return (

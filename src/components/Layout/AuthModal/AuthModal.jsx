@@ -34,12 +34,12 @@ export function AuthModal() {
 	useEffect(() => {
 		const handleClickOutside = (e) => {
 			if (!windowRef.current.contains(e.target)) {
-				navigate(location.pathname + location.search, { replace: true });
+				navigate(location.pathname, { replace: true });
 			}
 		};
 		document.addEventListener("mousedown", handleClickOutside);
 		return () => document.removeEventListener("mousedown", handleClickOutside);
-	}, [hideModal, location.pathname, location.search, navigate]);
+	}, [hideModal, location.pathname, navigate]);
 
 	return (
 		<div className={`${s.modal} ${isOpen ? s.show : s.hide}`}>

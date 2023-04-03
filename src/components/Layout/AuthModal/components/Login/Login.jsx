@@ -28,24 +28,58 @@ export function Login() {
     const location = useLocation();
     const navigate = useNavigate();
 
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-
-	// const [validEmail, setValidEmail] = useState(true);
-	// const [validPassword, setValidPassword] = useState(true);
+	const [email, setEmail] = useState({mail:"", error:"", state:true});
+	const [password, setPassword] = useState({pswd:"", error:"", state:true});
 
 	function validateEmail() {
 		const EMAIL_REGEXP  = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
-		return EMAIL_REGEXP.test(String(email).toLowerCase());
+        if (EMAIL_REGEXP.test(String(email.mail).toLowerCase())){
+            setEmail(prev=>({...prev, state: true}));
+        }
+        else{
+            if(email.mail.trim() === ""){
+                setEmail(prev=>({...prev, error: "*empty field"}));
+            }
+            else if(!email.mail.includes("@")){
+                setEmail(prev=>({...prev, error: "*email doesn't have \"@\""}));
+            }
+            else if(!email.mail.split("@")[1].includes(".")){
+                setEmail(prev=>({...prev, error: "*domain name doesn't have \".\""}));
+            }
+            else{
+                setEmail(prev=>({...prev, error: "*not valid email"}));
+            }
+            setEmail(prev=>({...prev, state: false}));
+        }
 	}
+
 	function validatePassword() {
 		const PASSWORD_REGEXP  = /^[a-zA-Z0-9]{8,}$/;
-		return PASSWORD_REGEXP.test(String(password).toLowerCase());
+		if(PASSWORD_REGEXP.test(String(password.pswd).toLowerCase())){
+            setPassword(prev=>({...prev, state:true}));
+        }
+        else{
+            if(password.pswd.trim() === ""){
+                setPassword(prev=>({...prev, error:"*empty field"}));
+            }
+            else if(password.pswd.length < 8){
+                setPassword(prev=>({...prev, error:"*password should be more than or equal 8 symbols"}));
+            }
+            else if(!/^[a-zA-Z0-9]$/.test(password.pswd)){
+                setPassword(prev=>({...prev, error:"*you can use only latins letters and numbers"}));
+            }
+            else{
+                setPassword(prev=>({...prev, error:"*not valid password"}));
+            }
+            setPassword(prev=>({...prev, state:false}));
+        }
 	}
+
 	function validateForm(){
-		// validateEmail(email);
-		// validatePassword(password);
-		return validateEmail() && validatePassword();
+        validatePassword();
+        validateEmail();
+		
+		// return validateEmail() && validatePassword();
 	}
 	
 	function handler(event){
@@ -54,15 +88,16 @@ export function Login() {
     return (
         <>
             <form action="#" onSubmit={handler} className={s.form}>
+                <span>the mark * indicating that the field is required</span>
                 <div className={s.input_block}>
-                    <label htmlFor="login">Login</label>
-                    <Input name="login" type="text" required placeholder="example@gmail.com" className={`${s.input} ${validateEmail() ? "" : s.error}`} onChange={event => setEmail(event.target.value)}></Input>
-                    <span>{validateEmail() ? "" : "*not valid email"}</span>
+                    <label htmlFor="login">Login*</label>
+                    <Input name="login" type="text" required placeholder="example@gmail.com" autoComplete="off" className={`${s.input} ${email.state ? "" : s.error}`} onChange={event => setEmail(prev => ({...prev, mail:event.target.value}))}></Input>
+                    <span>{email.state ? "" : email.error}</span>
                 </div>
                 <div className={s.input_block}>
-                    <label htmlFor="password">Password</label>
-                    <Input name="password" type="text" required placeholder="your password" className={`${s.input} ${validatePassword() ? "" : s.error}`} onChange={event => setPassword(event.target.value)}></Input>
-					<span>{validatePassword() ? "" : "*not valid password"}</span>
+                    <label htmlFor="password">Password*</label>
+                    <Input name="password" type="password" required placeholder="your password" autoComplete="off" className={`${s.input} ${password.state ? "" : s.error}`} onChange={event => setPassword(prev => ({...prev, pswd:event.target.value}))}></Input>
+					<span>{password.state ? "" : password.error}</span>
                 </div>
                 <Button type="submit" className={s.btn} onClick={()=>validateForm()}>
                     Login

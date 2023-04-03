@@ -12,6 +12,9 @@
         position: absolute;
         bottom: 0;
     }
+    &:first-child{
+        font-size: 12px;
+    }
 }
 .input {
 	font-weight: 400;
@@ -57,10 +60,11 @@
 .input_block{
     position: relative;
     & input{
+        height: 45px;
         margin-top: 25px;
     }
     & label{
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 400;
         padding: 0 10px;
         position: absolute;
@@ -69,5 +73,7 @@
         font-size: 12px;
         font-weight: 400;
         padding: 0 10px;
+        color:#fe54a3;
+        -webkit-text-fill-color: #fe54a3;
     }
 }

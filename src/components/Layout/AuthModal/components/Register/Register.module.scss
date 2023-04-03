@@ -3,10 +3,11 @@
 	flex-direction: column;
 	align-items: flex-start;
 	justify-content: flex-start;
-    // margin-top: 32px;
-	// gap: 16px;
     max-width: 350px;
     padding-left: 20px;
+    &:first-child{
+        font-size: 12px;
+    }
 }
 .input {
 	font-weight: 400;
@@ -22,16 +23,22 @@
 }
 .info {
     display: flex;
+    position: relative;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     gap: 16px;
     max-width: 350px;
     padding-right: 20px;
+    & .btn{
+        position: absolute;
+        bottom: 0;
+    }
 }
 .title {
     font-size: 18px;
-    font-weight: 500;    
+    font-weight: 500;
+    margin-top: 30px;
 }
 .advices {
     font-size: 14px;
@@ -52,7 +59,7 @@
 .input_block{
     position: relative;
     & input{
-        margin-top: 25px;
+        margin-top: 20px;
         height: 30px;
         min-width: 250px;
         font-size: 16px;
@@ -69,5 +76,7 @@
         font-size: 12px;
         font-weight: 400;
         padding: 0 10px;
+        color:#fe54a3;
+        -webkit-text-fill-color: #fe54a3;
     }
 }

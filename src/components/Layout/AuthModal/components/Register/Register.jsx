@@ -23,8 +23,8 @@ const advices = [
 
 export function Register() {
 
-	const [firstName, SetFirstName] = useState({name:"", error:"", state:true});
-	const [lastName, SetLastName] = useState({name:"", error:"", state:true});
+	const [firstName, setFirstName] = useState({name:"", error:"", state:true});
+	const [lastName, setLastName] = useState({name:"", error:"", state:true});
 	const [email, setEmail] = useState({mail:"", error:"", state:true});
 	const [password, setPassword] = useState({pswd:"", error:"", state:true});
 	const [specialization, setSpecialization] = useState({spec:"", error:"", state:true});
@@ -33,44 +33,44 @@ export function Register() {
 	function validateFirstName (){
 		const FIRST_NAME_REGEXP  = /^[a-zA-Z\s]{1,30}$/;
 		if(FIRST_NAME_REGEXP.test(String(firstName.name).toLowerCase())){
-			SetFirstName(prev=>({...prev, state:true}));
+			setFirstName(prev=>({...prev, state:true}));
 		}
 		else{
 			if(firstName.name.trim() === ""){
-				SetFirstName(prev=>({...prev, error:"*empty field"}));
+				setFirstName(prev=>({...prev, error:"*empty field"}));
 			}
 			else if(firstName.name.length > 30){
-				SetFirstName(prev=>({...prev, error:"*the value is too long"}));
+				setFirstName(prev=>({...prev, error:"*the value is too long"}));
 			}
 			else if(!FIRST_NAME_REGEXP.test(firstName.name)){
-				SetFirstName(prev=>({...prev, error:"*you can use only latins letters"}));
+				setFirstName(prev=>({...prev, error:"*you can use only latins letters"}));
 			}
 			else{
-				SetFirstName(prev=>({...prev, error:"*not valid"}));
+				setFirstName(prev=>({...prev, error:"*not valid"}));
 			}
-			SetFirstName(prev=>({...prev, state:false}));
+			setFirstName(prev=>({...prev, state:false}));
 		}
 	}
 
 	function validateLastName (){
 		const LAST_NAME_REGEXP  = /^[a-zA-Z\s]{1,30}$/;
 		if(LAST_NAME_REGEXP.test(String(lastName.name).toLowerCase())){
-			SetLastName(prev=>({...prev, state:true}));
+			setLastName(prev=>({...prev, state:true}));
 		}
 		else{
 			if(lastName.name.trim() === ""){
-				SetLastName(prev=>({...prev, error:"*empty field"}));
+				setLastName(prev=>({...prev, error:"*empty field"}));
 			}
 			else if(lastName.name.length > 30){
-				SetLastName(prev=>({...prev, error:"*the value is too long"}));
+				setLastName(prev=>({...prev, error:"*the value is too long"}));
 			}
 			else if(!LAST_NAME_REGEXP.test(lastName.name)){
-				SetLastName(prev=>({...prev, error:"*you can use only latins letters"}));
+				setLastName(prev=>({...prev, error:"*you can use only latins letters"}));
 			}
 			else{
-				SetLastName(prev=>({...prev, error:"*not valid"}));
+				setLastName(prev=>({...prev, error:"*not valid"}));
 			}
-			SetLastName(prev=>({...prev, state:false}));
+			setLastName(prev=>({...prev, state:false}));
 		}
 	}
 
@@ -173,12 +173,12 @@ export function Register() {
 				<span>the mark * indicating that the field is required</span>
 				<div className={s.input_block}>
                     <label htmlFor="first_name">First Name*</label>
-                    <Input name="first_name" type="text" required placeholder="John" autoComplete="off" className={`${s.input} ${firstName.state ? "" : s.error}`} onChange={event => SetFirstName(prev=>({...prev, name:event.target.value}))}></Input>
+                    <Input name="first_name" type="text" required placeholder="John" autoComplete="off" className={`${s.input} ${firstName.state ? "" : s.error}`} onChange={event => setFirstName(prev=>({...prev, name:event.target.value}))}></Input>
                     <span>{firstName.state ? "" : firstName.error}</span>
                 </div>
 				<div className={s.input_block}>
                     <label htmlFor="last_name">Last Name*</label>
-                    <Input name="last_name" type="text" required placeholder="Brown" autoComplete="off" className={`${s.input} ${lastName.state ? "" : s.error}`} onChange={event => SetLastName(prev=>({...prev, name:event.target.value}))}></Input>
+                    <Input name="last_name" type="text" required placeholder="Brown" autoComplete="off" className={`${s.input} ${lastName.state ? "" : s.error}`} onChange={event => setLastName(prev=>({...prev, name:event.target.value}))}></Input>
                     <span>{lastName.state ? "" : lastName.error}</span>
                 </div>
 				<div className={s.input_block}>

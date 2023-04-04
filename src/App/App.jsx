@@ -3,6 +3,7 @@ import { Layout } from "../components/Layout";
 import { TalentPage } from "../components/TalentPage";
 import { TalentsListPage } from "../components/TalentsListPage";
 import "./App.scss";
+import { NotFoundPage } from "../components/NotFoundPage/NotFoundPage";
 
 export function App() {
 	return (
@@ -15,7 +16,7 @@ export function App() {
 					element={<Navigate to="/talents" replace={true} />}
 				/>
 				<Route path="talents/:id" element={<TalentPage />} />
-				<Route path="*" element={<Navigate to="/talents" replace={true} />} />
+				<Route path="*" element={<NotFoundPage/>} />
 			</Route>
 		</Routes>
 	);

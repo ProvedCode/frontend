@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { TalentsService } from "../services/api-services";
 
-export default function useTalent(id) {
+export function useTalent(id) {
     const [talent, setTalent] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);

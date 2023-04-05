@@ -29,7 +29,6 @@ export const TalentsService = {
     },
     async getTalent(id) {
         try {
-            console.log(id);
             const response = await axiosInstance.get(`talents/${id}`);
 
             return response?.data;

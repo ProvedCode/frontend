@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router";
 import { Layout } from "../Layout";
 import s from "./TalentPage.module.scss";
@@ -7,52 +7,57 @@ import avatar from "../../shared/images/member-3.png";
 import { useNavigate } from "react-router-dom";
 import linkedin from "../../shared/images/linkedin.svg";
 import github from "../../shared/images/github.svg";
+import { TalentsService } from "../../services/api-services";
+import { TalentsContext } from "../../context/TalentsContext";
+import useTalent from "../../hooks/useTalent";
 
 export function TalentPage() {
     const params = useParams();
     const navigate = useNavigate();
-    const info = {
-        first_name: "Baba",
-        last_name: "Klava",
-        specialization: "Web-UI",
-        skills: ["Java-Script", "React", "Node.js"],
-        contacts: ["daniil.ievtukhov@nure.ua", "+380675839817"],
-        links: ["https://www.instagram.com/", "https://www.linkedin.com/"],
-        bio: "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).",
-    };
+
+    let { talent: info, isLoading } = useTalent(params.id);
+
+    if (isLoading || !info) {
+        return <></>;
+    }
+
     return (
         <>
-            {/* <h1>{params?.id}</h1> */}
+            <div className={s.btns}>
+                <Button onClick={() => navigate(-1)}>Back</Button>
+            </div>
             <div className={s.container}>
-                <div className={s.box}>
-                    <img id={s.ava} src={avatar} />
-                    <div className={s["info-talent"]}>
+                <div className={s.talent_data}>
+                    <img className={s.ava} src={info.image} alt="avatar" />
+                    <div className={s.info_talent}>
                         <div className={s.name}>
                             {info.first_name} {info.last_name}
                         </div>
                         <ul>
-                            <p>{info.specialization}</p>
+                            <li>{info?.specialization}</li>
                         </ul>
 
                         <div className={s.skills}>
-                            {info.skills.map((skill, index) => (
-                                <div className={s.skill} key={index}>
+                            {info.skills?.map((skill, talent) => (
+                                <div className={s.skill} key={talent}>
                                     {skill}
                                 </div>
                             ))}
                         </div>
                         <div className={s.links}>
-                            {info.links.map((link, index) => (
-                                <a className={s.linkss} href={link} key={index}>
+                            {info.links?.map((link, talent) => (
+                                <a className={s.link} href={link} key={talent}>
                                     {link.includes("linkedin") ? (
                                         <img
                                             className={s.socials}
                                             src={linkedin}
+                                            alt=" media icon"
                                         />
                                     ) : (
                                         <img
                                             className={s.socials}
                                             src={github}
+                                            alt=" media icon"
                                         />
                                     )}
                                 </a>
@@ -61,28 +66,25 @@ export function TalentPage() {
                     </div>
                 </div>
                 <div className={s.about}>
-                    <div className={s["ab-title"]}>about</div>
+                    <div className={s.ab_title}>about</div>
 
+                    <h3>Bio</h3>
                     <div className={s.bio}>
-                        <h3>Bio</h3>
-                        <p>{info.bio}</p>
+                        <li>{info.bio}</li>
                     </div>
+                    <h3>Contacts:</h3>
                     <ul>
-                        <h3>Contacts:</h3>
-                        {info.contacts.map((contact, index) => (
-                            <li key={index}>{contact}</li>
+                        {info.contacts?.map((contact, talent) => (
+                            <li key={talent}>{contact}</li>
                         ))}
                     </ul>
                 </div>
             </div>
-            <div className={s.proofs}>
+            {/* <div className={s.proofs}>
                 <div className={s.info}>
                     <h3>Proof:</h3>
                 </div>
-            </div>
-            <div className={s.btns}>
-                <Button onClick={() => navigate(-1)}>Back</Button>
-            </div>
+            </div> */}
         </>
     );
 }

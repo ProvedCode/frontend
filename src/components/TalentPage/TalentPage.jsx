@@ -70,17 +70,17 @@ export function TalentPage() {
 
                     <h3>Bio</h3>
                     <div className={s.bio}>
-                        <li>{talent.bio}</li>
+                        <p>{talent.bio}</p>
                     </div>
                     <h3>Additional info</h3>
                     <div className={s.additional_info}>
-                        <li>{talent.additional_info}</li>
+                        <p>{talent.additional_info}</p>
                     </div>
 
                     <h3>Contacts:</h3>
-                    <ul className={s.conacts}>
-                        {talent.contacts?.map((contact, talent) => (
-                            <li key={talent}>{contact}</li>
+                    <ul className={s.contacts}>
+                        {talent.contacts?.map((contact, index) => (
+                            <li key={index}>{contact}</li>
                         ))}
                     </ul>
                 </div>

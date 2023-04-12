@@ -5,6 +5,7 @@ import { Button, Input } from "../../../../../shared/components";
 import s from "./Login.module.scss";
 import { TalentsService } from "../../../../../services/api-services";
 import { useCookies } from "react-cookie";
+import { switchCase } from "@babel/types";
 
 const advices = [
 	{
@@ -25,7 +26,7 @@ const advices = [
 	},
 ];
 
-export function Login() {
+export function Login({switcher}) {
 	const location = useLocation();
 	const navigate = useNavigate();
 
@@ -122,8 +123,7 @@ export function Login() {
 							maxAge: 3600,
 
 						});
-						console.log(user);
-						setCookie("user", user, {
+						setCookie("user", JSON.stringify(user), {
 							path: '/',
 							maxAge: 3600,							
 						});
@@ -191,7 +191,7 @@ export function Login() {
 						</li>
 					))}
 				</ul>
-				<Button className={s.btn}>Register</Button>
+				<Button className={s.btn} onClick={()=>switcher(false)}>Register</Button>
 			</div>
 		</>
 	);

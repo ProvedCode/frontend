@@ -26,6 +26,7 @@ export function AuthModal() {
 		document.body.style.overflowY = "hidden";
 	}, []);
 	const hideModal = useCallback(() => {
+		setShowLoginForm(true);
 		setIsOpen(false);
 		document.body.style.overflowY = "auto";
 	}, []);
@@ -79,7 +80,7 @@ export function AuthModal() {
 						</button>
 					</div>
 					<div className={s.body}>
-						{showLoginForm ? <Login /> : <Register />}
+						{showLoginForm ? <Login switcher={ setShowLoginForm} /> : <Register switcher={ setShowLoginForm}/>}
 					</div>
 				</div>
 			</div>

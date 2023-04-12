@@ -52,37 +52,52 @@ export const TalentsService = {
 				`talents/login`,
 				{},
 				{ headers }
-            );
+			);
 			return response?.data;
 		} catch (error) {
 			throw error;
 		}
 	},
-    async getNewToken(token) {
+	async register(newUser) {
+		try {
+			const response = await axiosInstance.post(`talents/register`, {
+				...newUser,
+			});
+			return response?.data;
+		} catch (error) {
+			throw error;
+		}
+	},
+	async getNewToken(token) {
 		const headers = {
 			Authorization: `Bearer ${token}`,
 		};
 		try {
 			const response = await axiosInstance.post(
-                "talents/login",
-                {},
+				"talents/login",
+				{},
 				{ headers }
-            );
-            console.log(response?.data?.token);
+			);
+			console.log(response?.data?.token);
 			return response?.data?.token;
 		} catch (error) {
 			console.log(error);
 			return error;
 		}
 	},
-    async getProofs(id) {
-        try {
-            const response = await axiosInstance.get(`talents/${id}/proofs`);
+	async getProofs(id, token) {
+		const headers = {
+			Authorization: `Bearer ${token}`,
+		};
+		try {
+			const response = await axiosInstance.get(`talents/${id}/proofs`, {
+				headers,
+			});
 
-            return response?.data.proofs.content;
-        } catch (error) {
-            console.log(error);
-            return error;
-        }
-    },
+			return response?.data.proofs.content;
+		} catch (error) {
+			console.log(error);
+			return error;
+		}
+	},
 };

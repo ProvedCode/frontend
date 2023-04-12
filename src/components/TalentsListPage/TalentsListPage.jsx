@@ -29,7 +29,6 @@ export function TalentsListPage() {
         <>
             <TalentsList talents={talents} />
             <Pagination />
-            <ListProofs />
         </>
     );
 }

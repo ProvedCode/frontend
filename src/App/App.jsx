@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { Layout } from "../components/Layout";
 import { TalentPage } from "../components/TalentPage";
 import { TalentsListPage } from "../components/TalentsListPage";
+import { ProfilePage } from "../components/ProfilePage";
 import "./App.scss";
 import { NotFoundPage } from "../components/NotFoundPage/NotFoundPage";
 import { RequireAuth } from "../hoc/RequireAuth";

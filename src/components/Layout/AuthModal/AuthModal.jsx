@@ -35,10 +35,7 @@ export function AuthModal() {
 		if (location.hash.includes("auth") && !auth) {
 			showModal();
 		} else {
-			hideModal();
-			// if (auth && location.state !== null) {
-			// 	navigate(location.state.from.pathname, {replace: true});
-			// }
+			hideModal();			
 		}
 	}, [auth, hideModal, location.hash, location.state, navigate, showModal]);
 

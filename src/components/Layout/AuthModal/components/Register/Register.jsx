@@ -254,7 +254,6 @@ export function Register({ switcher }) {
 	function handlerSubmit(event) {
 		event.preventDefault();
 		if (validateForm()) {
-			console.log("reg");
 			const newUser = {
 				first_name: firstName.name,
 				last_name: lastName.name,

@@ -34,9 +34,7 @@ export function Header() {
                                 return isActive ? styles.active : "";
                             }}
                         >
-                            <Link to={`/${title.toLocaleLowerCase()}`}>
-                                {title}
-                            </Link>
+                            {title}
                         </NavLink>
                     ))}
                 </nav>

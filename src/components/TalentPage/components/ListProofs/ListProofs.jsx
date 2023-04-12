@@ -1,4 +1,4 @@
-import { ProofBlock } from "../ProofBlock/ProofBlock";
+import { ProofBlock } from "./components/ProofBlock/ProofBlock";
 import { TalentsService } from "../../../../services/api-services";
 
 export function ListProofs({ id }) {

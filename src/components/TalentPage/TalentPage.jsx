@@ -9,7 +9,7 @@ import github from "../../shared/images/github.svg";
 import { TalentsService } from "../../services/api-services";
 import { TalentsContext } from "../../context/TalentsContext";
 import { useTalent } from "../../hooks/useTalent";
-import { ProofBlock } from "./components/ProofBlock/ProofBlock";
+import { ProofBlock } from "./components/ListProofs/components/ProofBlock/ProofBlock";
 import { ListProofs } from "./components/ListProofs/ListProofs";
 
 export function TalentPage() {

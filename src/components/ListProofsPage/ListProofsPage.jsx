@@ -1,9 +1,9 @@
 import { TalentsService } from "../../services/api-services";
 import { useState } from "react";
 import { useEffect } from "react";
-import { ProofBlock } from "../TalentPage/components/ProofBlock/ProofBlock";
+import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock/ProofBlock";
 import { Button } from "../../shared/components";
-import s from "../ListProofsPage/ListProofsPage.module.scss";
+import s from "./ListProofsPage.module.scss";
 
 export function ListProofsPage() {
     const [proofs, setProofs] = useState({});
@@ -12,31 +12,27 @@ export function ListProofsPage() {
         TalentsService.getProofs().then((res) => setProofs(res));
     }, []);
 
-    const filter = (proofs) => {
+    const filterByDateAsc = () => {
         const data = [...proofs].sort(
             (a, b) => new Date(b.created) - new Date(a.created)
         );
-        return data;
+        setProofs(data);
     };
 
-    const filterIncrease = () => {
-        setProofs(filter(proofs));
-    };
-
-    const filterDecrease = () => {
+    const filterByDateDesc = () => {
         const data = [...proofs].sort(
             (a, b) => new Date(b.created) - new Date(a.created)
         );
-        setProofs(filter(proofs).reverse());
+        setProofs(data.reverse());
     };
 
     return (
         <div>
             <div className={s.buttons}>
-                <Button className={s.button} onClick={filterIncrease}>
+                <Button className={s.button} onClick={filterByDateDesc}>
                     Sort by date: descending
                 </Button>
-                <Button className={s.button} onClick={filterDecrease}>
+                <Button className={s.button} onClick={filterByDateAsc}>
                     Sort by date: ascending
                 </Button>
             </div>

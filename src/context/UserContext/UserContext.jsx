@@ -6,7 +6,7 @@ export const UserContext = createContext({
 });
 
 export function UserProvider({ children }) {
-    const [auth, setAuth] = useState(true);
+    const [auth, setAuth] = useState(false);
 
     const userValue = useMemo(
         () => ({

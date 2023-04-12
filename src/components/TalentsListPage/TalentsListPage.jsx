@@ -32,13 +32,7 @@ export function TalentsListPage() {
 
     return (
         <>
-            {/* <div className={styles.grid_container}>
-				<SearchPanel />
-				<Title />
-				<Filters talents={talents} />
-				<TalentsList talents={talents} />
-			</div> */}
-            <TalentsList talents={talents} /> {/*temporarily*/}
+            <TalentsList talents={talents} />
             <Pagination />
             <ListProofs />
         </>

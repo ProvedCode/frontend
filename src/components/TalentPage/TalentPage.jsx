@@ -1,15 +1,11 @@
 import React, { useContext, useEffect } from "react";
 import { useParams } from "react-router";
-import { Layout } from "../Layout";
 import s from "./TalentPage.module.scss";
 import { Button } from "../../shared/components/Button/Button";
 import { useNavigate } from "react-router-dom";
 import linkedin from "../../shared/images/linkedin.svg";
 import github from "../../shared/images/github.svg";
-import { TalentsService } from "../../services/api-services";
-import { TalentsContext } from "../../context/TalentsContext";
 import { useTalent } from "../../hooks/useTalent";
-import { ProofBlock } from "./components/ProofBlock/ProofBlock";
 import { ListProofs } from "./components/ListProofs/ListProofs";
 
 export function TalentPage() {
@@ -38,9 +34,9 @@ export function TalentPage() {
 
                         <p>{talent?.specialization}</p>
 
-                        <div className={s.skills}>
-                            {talent.talents?.map((skill, talent) => (
-                                <div className={s.skill} key={talent}>
+                        <div className={s.talents}>
+                            {talent.talents?.map((skill, index) => (
+                                <div className={s.skill} key={index}>
                                     {skill}
                                 </div>
                             ))}

@@ -1,6 +1,5 @@
 import { ProofBlock } from "../ProofBlock/ProofBlock";
 import { TalentsService } from "../../../../services/api-services";
-import { useTalent } from "../../../../hooks/useTalent";
 
 export function ListProofs({ id }) {
     return (

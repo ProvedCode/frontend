@@ -5,22 +5,28 @@ import { TalentsListPage } from "../components/TalentsListPage";
 import "./App.scss";
 import { NotFoundPage } from "../components/NotFoundPage/NotFoundPage";
 import { RequireAuth } from "../hoc/RequireAuth";
+import { ListProofsPage } from "../components/ListProofsPage/ListProofsPage";
 
 export function App() {
-	return (
-		<Routes>
-			<Route path="/" element={<Layout />}>
-				<Route index element={<Navigate to="/talents" replace={true} />} />
-				<Route path="talents" element={<TalentsListPage />} />
-				<Route
-					path="proofs"
-					element={<Navigate to="/talents" replace={true} />}
-				/>
-				<Route element={<RequireAuth redirect={'/talents'}/>}>
-					<Route path="talents/:id" element={<TalentPage />} />
-				</Route>
-				<Route path="*" element={<NotFoundPage />} />
-			</Route>
-		</Routes>
-	);
+    return (
+        <Routes>
+            <Route path="/" element={<Layout />}>
+                <Route
+                    index
+                    element={<Navigate to="/talents" replace={true} />}
+                />
+                <Route path="talents" element={<TalentsListPage />} />
+                <Route
+                    index
+                    element={<Navigate to="/proofs" replace={true} />}
+                />
+                <Route path="proofs" element={<ListProofsPage />} />
+
+                <Route element={<RequireAuth redirect={"/talents"} />}>
+                    <Route path="talents/:id" element={<TalentPage />} />
+                </Route>
+                <Route path="*" element={<NotFoundPage />} />
+            </Route>
+        </Routes>
+    );
 }

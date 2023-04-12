@@ -14,7 +14,7 @@ export function Header() {
         () => [
             { title: "Home", link: "/" },
             { title: "Talents", link: "/talents" },
-            // { title: "Proofs", link: "/proofs" },
+            { title: "Proofs", link: "/proofs" },
         ],
         []
     );
@@ -34,7 +34,9 @@ export function Header() {
                                 return isActive ? styles.active : "";
                             }}
                         >
-                            {title}
+                            <Link to={`/${title.toLocaleLowerCase()}`}>
+                                {title}
+                            </Link>
                         </NavLink>
                     ))}
                 </nav>

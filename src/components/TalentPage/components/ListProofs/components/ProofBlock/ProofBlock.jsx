@@ -1,6 +1,6 @@
-import s from "../ProofBlock/ProofBlock.module.scss";
+import s from "./ProofBlock.module.scss";
 
-export function ProofBlock({ title, link, text, status, created }) {
+export function ProofBlock({ link, text, created }) {
     return (
         <div className={s.out}>
             <div className={s.proofs}>

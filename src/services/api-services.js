@@ -29,9 +29,19 @@ export const TalentsService = {
     },
     async getTalent(id) {
         try {
-            const response = await axiosInstance.get(`talents/${id}/proofs`);
+            const response = await axiosInstance.get(`talents/${id}`);
 
             return response?.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    async getProofs(id) {
+        try {
+            const response = await axiosInstance.get(`talents/${id}/proofs`);
+
+            return response?.data.proofs.content;
         } catch (error) {
             console.log(error);
             return error;

@@ -38,7 +38,7 @@ export function Login() {
 		state: true,
 	});
 	const [errMessage, setErrMessage] = useState("");
-	const [cookies, setCookie, removeCookie] = useCookies(["username"]);
+	const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 	const { setAuth } = useContext(UserContext);
 
 	const validateEmail = useCallback(() => {
@@ -116,12 +116,24 @@ export function Login() {
 							error: "",
 							state: true,
 						});
-						setCookie("token", response);
+						const { token, ...user } = response;
+						setCookie("token", token, {
+							path: '/',
+							maxAge: 3600,
+
+						});
+						console.log(user);
+						setCookie("user", user, {
+							path: '/',
+							maxAge: 3600,							
+						});
 						setAuth(true);
 						redirectAfterLogin();
 					})
 					.catch((err) => {
-						setErrMessage("Incorrect Login or Password");
+						if (err.response.status === 401) {
+							setErrMessage("Incorrect Login or Password");							
+						}
 					});
 			} else {
 				// setErrMessage("Incorrect Login or Password");

@@ -10,11 +10,9 @@ export function useTalent(id) {
 
     useEffect(() => {
         setIsLoading(true);
-        console.log(isLoading);
 		TalentsService.getTalent(id, cookies?.token)
 			.then((talent) => {
                 setTalent(talent);
-                console.log(talent);
 			})
 			.catch((error) => {
 				setError(error);

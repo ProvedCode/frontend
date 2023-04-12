@@ -1,9 +1,9 @@
 import { useCallback, useContext, useMemo, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import styles from "./Header.module.scss";
+import s from "./Header.module.scss";
 import { Button } from "../../../shared/components";
 import { UserContext } from "../../../context/UserContext";
-import { useCookies } from "react-cookie";  // temp
+import { useCookies } from "react-cookie"; // temp
 
 export function Header() {
 	const navigate = useNavigate();
@@ -12,8 +12,8 @@ export function Header() {
 		return location.pathname + location.search + "#auth";
 	}, [location]);
 
-    const { auth } = useContext(UserContext);
-    const [cookies, setCookie, removeCookie] = useCookies(['token']);  // temp
+	const { auth, user } = useContext(UserContext);
+	const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 
 	const menuItems = useMemo(
 		() => [
@@ -25,36 +25,42 @@ export function Header() {
 	);
 
 	return (
-		<header className={styles.header}>
+		<header className={s.header}>
 			<div className="__container">
-				<Link to="/" className={styles.logo}>
+				<Link to="/" className={s.logo}>
 					Proved<span>Code</span>
 				</Link>
-				<nav className={styles.nav}>
+				<nav className={s.nav}>
 					{menuItems.map(({ title, link }, index) => (
 						<NavLink
 							to={link}
 							key={index}
 							className={({ isActive }) => {
-								return isActive ? styles.active : "";
+								return isActive ? s.active : "";
 							}}>
 							{title}
 						</NavLink>
 					))}
 				</nav>
-				<div className={styles.btns}>
+				<div className={s.btns}>
 					{!auth ? (
 						<Button
-							className={styles.btn}
+							className={s.btn}
 							onClick={() => navigate(editPath(), { replace: true })}>
 							Login / Register
 						</Button>
 					) : (
-						<Button
-							className={styles.btn}
-							onClick={() => removeCookie('token')}>
-							Log Out
-						</Button>
+						<>
+								<Link to="/profile" className={s.username}>{ user && user.first_name + " " + user.last_name }</Link>
+							<Button
+								className={s.btn}
+									onClick={() => {
+										removeCookie("token");
+										removeCookie("user");
+									}}>
+								Log Out
+							</Button>
+						</>
 					)}
 				</div>
 			</div>

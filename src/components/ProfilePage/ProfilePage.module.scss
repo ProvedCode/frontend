@@ -24,18 +24,18 @@
     justify-content: space-evenly;
 }
 
-.input_block{
+.input_block {
     line-height: 15px;
     text-align: start;
     padding: 0 5px;
-    input{
+    input {
         max-width: 200px;
         font-size: 16px;
         font-weight: 400;
         border-radius: 10px;
         padding: 0 5px;
     }
-    span{
+    span {
         font-size: 10px;
         display: inline-block;
         padding: 0 5px;
@@ -44,11 +44,11 @@
     }
 }
 
-.error{
+.error {
     border: 3px solid #ff0062c1;
 }
 
-.specialization{
+.specialization {
     display: flex;
     justify-content: center;
 }
@@ -58,8 +58,8 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     gap: 10px 0.5em;
-    input{
-        max-width:350px;
+    input {
+        max-width: 350px;
         width: 350px;
     }
 }
@@ -69,10 +69,10 @@
     border-radius: 30px;
     align-self: center;
 }
-.links{
+.links {
     padding: 0px 10px;
-    input{
-        max-width:350px;
+    input {
+        max-width: 350px;
         width: 350px;
     }
 }
@@ -131,7 +131,7 @@
     border-radius: 20px;
 }
 
-.edit{
+.edit {
     width: 30px;
     height: auto;
     float: right;
@@ -152,20 +152,20 @@
     white-space: pre-wrap;
 }
 
-.contacts{
+.contacts {
     word-break: break-all;
 }
 
-.textarea_block{
+.textarea_block {
     line-height: 1;
-    textarea{
+    textarea {
         width: 100%;
         height: 75px;
     }
-    .big_textarea{
+    .big_textarea {
         height: 150px;
     }
-    span{
+    span {
         font-size: 10px;
         display: inline-block;
         padding: 0 5px;
@@ -174,11 +174,8 @@
     }
 }
 
-.passwords{
+.passwords {
     padding-left: 10px;
-    // input{
-    //     font-size: 20px;    
-    // }
 }
 
 @media screen and (max-width: 1068px) {
@@ -200,19 +197,3 @@
         text-align: center;
     }
 }
-
-// .proofs {
-//     width: 100%;
-//     min-height: 250px;
-//     display: flex;
-//     flex-direction: row;
-//     align-items: flex-start;
-//     justify-content: flex-start;
-//     gap: 48px;
-//     padding: 30px 10px 10px 40px;
-//     color: #fff;
-//     background: #111111;
-//     border-radius: 16px;
-//     //overflow: hidden;
-
-// }

@@ -9,13 +9,14 @@ import github from "../../shared/images/github.svg";
 import { TalentsService } from "../../services/api-services";
 import { TalentsContext } from "../../context/TalentsContext";
 import { useTalent } from "../../hooks/useTalent";
+import { ProofBlock } from "./components/ProofBlock/ProofBlock";
+import { ListProofs } from "./components/ListProofs/ListProofs";
 
 export function TalentPage() {
     const params = useParams();
     const navigate = useNavigate();
 
     const { talent, isLoading } = useTalent(params.id);
-
     if (isLoading || !talent) {
         return <></>;
     }
@@ -38,7 +39,7 @@ export function TalentPage() {
                         <p>{talent?.specialization}</p>
 
                         <div className={s.skills}>
-                            {talent.skills?.map((skill, talent) => (
+                            {talent.talents?.map((skill, talent) => (
                                 <div className={s.skill} key={talent}>
                                     {skill}
                                 </div>
@@ -85,11 +86,7 @@ export function TalentPage() {
                     </ul>
                 </div>
             </div>
-            {/* <div className={s.proofs}>
-                <div className={s.info}>
-                    <h3>Proof:</h3>
-                </div>
-            </div> */}
+            <ListProofs id={params.id} />
         </>
     );
 }

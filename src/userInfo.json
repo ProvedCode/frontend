@@ -1,0 +1,59 @@
+[
+    {
+        "first_name": "Serhii",
+        "last_name": "Soloviov",
+        "id": 1,
+        "image": "https://i.pinimg.com/564x/e1/08/49/e10849923a8b2e85a7adf494ebd063e6.jpg",
+        "specialization": "Java-Developer",
+        "proofs": {
+            "content": [
+                {
+                    "id": 3,
+                    "link": "http://third_link",
+                    "text": "text to third proof ",
+                    "status": "HIDDEN",
+                    "created": "08-06-2021 16:00:19"
+                },
+                {
+                    "id": 1,
+                    "link": "http://first_link",
+                    "text": "text to first proof",
+                    "status": "PUBLISHED",
+                    "created": "04-01-2022 16:00:19"
+                },
+                {
+                    "id": 2,
+                    "link": "http://second_link",
+                    "text": "text to second proof",
+                    "status": "DRAFT",
+                    "created": "04-03-2023 16:00:19"
+                }
+            ],
+            "pageable": {
+                "sort": {
+                    "empty": false,
+                    "unsorted": false,
+                    "sorted": true
+                },
+                "offset": 0,
+                "page_number": 0,
+                "page_size": 5,
+                "paged": true,
+                "unpaged": false
+            },
+            "total_pages": 1,
+            "total_elements": 3,
+            "last": true,
+            "size": 5,
+            "number": 0,
+            "sort": {
+                "empty": false,
+                "unsorted": false,
+                "sorted": true
+            },
+            "number_of_elements": 3,
+            "first": true,
+            "empty": false
+        }
+    }
+]

@@ -5,7 +5,7 @@ import { useCookies } from "react-cookie";
 const BASE_URL = "http://18.194.159.42:8081/api/";
 
 const axiosInstance = axios.create({
-	baseURL: BASE_URL,
+    baseURL: BASE_URL,
 });
 
 export const TalentsService = {
@@ -110,4 +110,13 @@ export const TalentsService = {
 			return error;
 		}
 	},
+	async deleteTalent(id, token) {
+        const headers = {
+            Authorization: `Bearer ${token}`,
+        };
+        const response = await axiosInstance.delete(`talents/${id}`, {
+            headers,
+        });
+        return response;
+    },
 };

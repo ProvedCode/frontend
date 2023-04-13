@@ -1,20 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useLocation } from "react-router";
-import { Layout } from "../Layout";
 import s from "./ProfilePage.module.scss";
 import { Button, Input, Textarea } from "../../shared/components";
 import { useNavigate } from "react-router-dom";
 import linkedin from "../../shared/images/linkedin.svg";
 import github from "../../shared/images/github.svg";
 import { TalentsService } from "../../services/api-services";
-import { TalentsContext } from "../../context/TalentsContext";
 import edit from "./images/edit.svg";
+import { UserContext } from "../../context/UserContext";
+import { useCookies } from "react-cookie";
+
 
 export function ProfilePage() {
     const navigate = useNavigate();
     const location = useLocation();
+    const { user, token } = useContext(UserContext);
 
+
+    const [profile, setProfile] = useState({});
+    const [isLoading, setIsLoading] = useState(false);
     const [editting, setEditting] = useState(false);
+    const [cookies, setCookie] = useCookies(["user"])
 
     useEffect(() => {
         if (editting) {
@@ -28,56 +34,67 @@ export function ProfilePage() {
         }
     }, [editting]);
 
-    const [profile, setProfile] = useState({
-        first_name: "Fedor",
-        last_name: "Egorov",
-        image: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
-        specialization: "JS dev",
-        talents: ["dev", "hello", "hi there", "how are u", "wow"],
-        links: ["https://github.com/Ruslanchik01"],
-        bio: "hello world",
-        additional_info: "how are you today",
-        contacts: ["instagram.com", "facebook.com"],
-        password: "12345678",
-    });
+    useEffect(()=>{
+        setIsLoading(true);
+        if(user.id){
+            TalentsService.getTalent(user.id, token).then((response)=>{
+                setProfile(response);
+                setIsLoading(false);
+            }).catch((error) =>{
+                console.log(error);
+            })
+        }
+    }, [user.id, token])
+    // const [profile, setProfile] = useState({
+    //     first_name: "Fedor",
+    //     last_name: "Egorov",
+    //     image: "https://cdn-icons-png.flaticon.com/512/6596/6596121.png",
+    //     specialization: "JS dev",
+    //     talents: ["dev", "hello", "hi there", "how are u", "wow"],
+    //     links: ["https://github.com/Ruslanchik01"],
+    //     bio: "hello world",
+    //     additional_info: "how are you today",
+    //     contacts: ["instagram.com", "facebook.com"],
+    //     password: "12345678",
+    // }); 
 
     const [firstName, setFirstName] = useState({
-        name: profile.first_name,
+        name: "",
         error: "",
         state: true,
     });
     const [lastName, setLastName] = useState({
-        name: profile.last_name,
+        name: "",
         error: "",
         state: true,
     });
     const [specialization, setSpecialization] = useState({
-        spec: profile.specialization,
+        spec: "",
         error: "",
         state: true,
     });
     const [talents, setTalents] = useState({
-        talents: profile.talents.join("; "),
+        talents: "",
         error: "",
         state: true,
     });
     const [links, setLinks] = useState({
-        links: profile.links.join("; "),
+        links: "",
         error: "",
         state: true,
     });
     const [bio, setBio] = useState({
-        bio: profile.bio,
+        bio: "",
         error: "",
         state: true,
     });
     const [additionalInfo, setAdditionalInfo] = useState({
-        info: profile.additional_info,
+        info: "",
         error: "",
         state: true,
     });
     const [contacts, setContacts] = useState({
-        contacts: profile.contacts.join("; "),
+        contacts: "",
         error: "",
         state: true,
     });
@@ -91,6 +108,23 @@ export function ProfilePage() {
         error: "",
         state: true,
     });
+
+    useEffect(()=>{
+        if(Object.keys(profile).length !== 0){
+            setFirstName((prev)=>({...prev, name:profile?.first_name}));
+            setLastName((prev)=>({...prev, name:profile?.last_name}));
+            setSpecialization((prev)=>({...prev, spec:profile?.specialization}));
+            setTalents((prev)=>({...prev, talents: profile?.talents.join("; ")}));
+            setLinks((prev)=>({...prev, links: profile?.links.join("; ")}));
+            setBio((prev)=>({...prev, bio: profile?.bio ? profile?.bio : ""}));
+            setAdditionalInfo((prev)=>({...prev, info: profile?.additional_info ? profile?.additional_info :""}));
+            setContacts((prev)=>({...prev, contacts: profile?.contacts.join("; ") ? profile?.contacts.join("; ") :""}));
+        }
+    }, [profile]);
+
+    if (isLoading || !profile) {
+        return <></>;
+    }
 
     function validateFirstName() {
         const FIRST_NAME_REGEXP = /^[a-zA-Z'\s]{1,30}$/;
@@ -359,7 +393,7 @@ export function ProfilePage() {
         return str;
     }
 
-    function validateAll() {
+    function save() {
         validateFirstName();
         validateLastName();
         validateSpecialization();
@@ -368,8 +402,7 @@ export function ProfilePage() {
         validateBio();
         validateAdditionalInfo();
         validateContacts();
-        validatePassword();
-        validateNewPassword();
+
         let isValid =
             validateFirstName() &&
             validateLastName() &&
@@ -378,11 +411,19 @@ export function ProfilePage() {
             validateLinks() &&
             validateBio() &&
             validateAdditionalInfo() &&
-            validateContacts() &&
-            validatePassword() &&
-            validateNewPassword();
+            validateContacts();
 
         if (isValid) {
+            const obj = {
+                first_name: firstName.name,
+                last_name: lastName.name,
+                specialization: specialization.spec,
+                talents: normalizeArray(talents.talents),
+                links: normalizeArray(links.links),
+                bio: normalizeString(bio.bio),
+                additional_info: normalizeString(additionalInfo.info),
+                contacts: normalizeArray(contacts.contacts),
+            }
             setProfile((prev) => ({
                 ...prev,
                 first_name: firstName.name,
@@ -394,22 +435,36 @@ export function ProfilePage() {
                 additional_info: normalizeString(additionalInfo.info),
                 contacts: normalizeArray(contacts.contacts),
             }));
-            if (newPassword.pswd.length !== 0) {
-                setProfile((prev) => ({
-                    ...prev,
-                    password: newPassword.pswd,
-                }));
+
+            try {
+                TalentsService.editTalent(user.id, obj, token)
+                    .then(() => {
+                        const newUser = {...user};
+                        for(let k in obj){
+                            if(user.hasOwnProperty(k)){
+                                newUser[k] = obj[k];
+                            }
+                        }
+                        setCookie("user", newUser, {
+							path: '/',
+							maxAge: 3600,
+						})
+                        setEditting(false);
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                    });
+                console.log("Profile editted successfully");
+            } catch (error) {
+                console.error(error);
             }
-            setPassword((prev) => ({ ...prev, pswd: "" }));
-            setNewPassword((prev) => ({ ...prev, pswd: "" }));
-            setEditting(false);
         }
     }
 
     return (
         <>
             <div className={s.btns}>
-                <Button className={s.btn} onClick={() => console.log(profile)}>
+                <Button className={s.btn} onClick={() => console.log(user)}>
                     Back
                 </Button>
             </div>
@@ -734,7 +789,7 @@ export function ProfilePage() {
                             >
                                 Cancel
                             </Button>
-                            <Button onClick={validateAll} className={s.btn}>
+                            <Button onClick={save} className={s.btn}>
                                 Save
                             </Button>
                         </div>

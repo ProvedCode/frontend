@@ -85,16 +85,26 @@ export const TalentsService = {
 			return error;
 		}
 	},
-	async getProofs(id, token) {
+	async getProofs() {
+		try {
+			const response = await axiosInstance.get(`talents/proofs`);
+
+            return response?.data.content;
+		} catch (error) {
+			console.log(error);
+			return error;
+		}
+	},
+	async editTalent(id, edittedUser, token) {
 		const headers = {
 			Authorization: `Bearer ${token}`,
 		};
 		try {
-			const response = await axiosInstance.get(`talents/${id}/proofs`, {
+			const response = await axiosInstance.patch(`talents/${id}`, edittedUser, {
 				headers,
-			});
+			},);
 
-			return response?.data.proofs.content;
+			return response;
 		} catch (error) {
 			console.log(error);
 			return error;

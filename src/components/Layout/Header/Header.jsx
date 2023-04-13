@@ -19,7 +19,7 @@ export function Header() {
 		() => [
 			{ title: "Home", link: "/" },
 			{ title: "Talents", link: "/talents" },
-			// { title: "Proofs", link: "/proofs" },
+			{ title: "Proofs", link: "/proofs" },
 		],
 		[]
 	);
@@ -57,6 +57,7 @@ export function Header() {
 									onClick={() => {
 										removeCookie("token");
 										removeCookie("user");
+										navigate("/", {replace: true});
 									}}>
 								Log Out
 							</Button>

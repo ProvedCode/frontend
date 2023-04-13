@@ -63,6 +63,7 @@ export function Header() {
                                 onClick={() => {
                                     removeCookie("token");
                                     removeCookie("user");
+									navigate("/", {replace: true});
                                 }}
                             >
                                 Log Out

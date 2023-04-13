@@ -85,7 +85,7 @@ export const TalentsService = {
 			return error;
 		}
 	},
-	async getProofs() {
+	async getAllProofs() {
 		try {
 			const response = await axiosInstance.get(`talents/proofs`);
 
@@ -95,6 +95,21 @@ export const TalentsService = {
 			return error;
 		}
 	},
+	async getProofs(id, token) {
+        const headers = {
+            Authorization: `Bearer ${token}`,
+        };
+        try {
+            const response = await axiosInstance.get(`talents/${id}/proofs`, {
+                headers,
+            });
+
+            return response?.data.proofs.content;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
 	async editTalent(id, edittedUser, token) {
 		const headers = {
 			Authorization: `Bearer ${token}`,

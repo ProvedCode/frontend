@@ -20,6 +20,7 @@ export const TalentsService = {
 			return [];
 		}
 	},
+
 	async getTalent(id, token) {
 		const headers = {
 			Authorization: `Bearer ${token}`,

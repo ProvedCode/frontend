@@ -112,6 +112,7 @@ export function ProfilePage() {
             setContacts((prev)=>({...prev, contacts: profile?.contacts.join("; ") ? profile?.contacts.join("; ") :""}));
         }
     }, [profile, editting]);
+    
 
     if (isLoading || !profile) {
         return <></>;

@@ -11,8 +11,8 @@ import edit from "./images/edit.svg";
 import { UserContext } from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { AcceptingModal } from "./components/AcceptingModal";
-import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock/ProofBlock";
-import { ListProofs } from "../TalentPage/components/ListProofs/ListProofs";
+
+import { ListProofs } from "../TalentPage/components/ListProofs";
 
 export function ProfilePage() {
     const content = [

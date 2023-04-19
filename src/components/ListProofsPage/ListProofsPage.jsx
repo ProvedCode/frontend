@@ -1,7 +1,7 @@
 import { TalentsService } from "../../services/api-services";
 import { useState } from "react";
 import { useEffect } from "react";
-import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock/ProofBlock";
+import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock";
 import { Button } from "../../shared/components";
 import s from "./ListProofsPage.module.scss";
 
@@ -30,10 +30,10 @@ export function ListProofsPage() {
         <div>
             <div className={s.buttons}>
                 <Button className={s.button} onClick={filterByDateDesc}>
-                    Sort by date: descending
+                    Sort by date: ascending
                 </Button>
                 <Button className={s.button} onClick={filterByDateAsc}>
-                    Sort by date: ascending
+                    Sort by date: descending
                 </Button>
             </div>
 

@@ -11,40 +11,10 @@ import edit from "./images/edit.svg";
 import { UserContext } from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { AcceptingModal } from "./components/AcceptingModal";
-
+import { AddingProofsForm } from "./components/AddingProofsForm/AddingProofsForm";
 import { ListProofs } from "../TalentPage/components/ListProofs";
 
 export function ProfilePage() {
-    const content = [
-        // {
-        //     id: 0,
-        //     link: "string",
-        //     text: "string",
-        //     status: "DRAFT",
-        //     created: "string",
-        // },
-        // {
-        //     id: 1,
-        //     link: "string",
-        //     text: "string",
-        //     status: "DRAFT",
-        //     created: "string",
-        // },
-        // {
-        //     id: 2,
-        //     link: "string",
-        //     text: "string",
-        //     status: "DRAFT",
-        //     created: "string",
-        // },
-        // {
-        //     id: 3,
-        //     link: "string",
-        //     text: "string",
-        //     status: "DRAFT",
-        //     created: "string",
-        // },
-    ];
     const navigate = useNavigate();
     const location = useLocation();
     const { user, token } = useContext(UserContext);
@@ -54,6 +24,7 @@ export function ProfilePage() {
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [proofsFormActive, setproofsFormActive] = useState(false);
 
     useEffect(() => {
         if (editting) {
@@ -865,7 +836,23 @@ export function ProfilePage() {
                     )}
                 </div>
             </div>
+            <div className={s.proofs_side}>
+                <div className={s.updating_proofs}>
+                    <button
+                        className={s.add}
+                        onClick={() => setproofsFormActive(true)}
+                    >
+                        +
+                    </button>
+                </div>
 
+                {proofsFormActive && (
+                    <AddingProofsForm
+                        active={proofsFormActive}
+                        setActive={setproofsFormActive}
+                    />
+                )}
+            </div>
             {user.id ? (
                 <ListProofs id={user.id} />
             ) : (

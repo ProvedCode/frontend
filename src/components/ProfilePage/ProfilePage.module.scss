@@ -178,6 +178,22 @@
     padding-left: 10px;
 }
 
+.updating_proofs {
+    display: flex;
+    justify-content: center;
+}
+.proofs_side {
+    width: 100%;
+    height: 100%;
+    padding: 10px 10px;
+}
+.add {
+    background-color: rgba(1, 1, 1, 0);
+    font-size: 100px;
+    //min-width: 100px;
+    color: #fff;
+}
+
 @media screen and (max-width: 1068px) {
     .container {
         display: table;

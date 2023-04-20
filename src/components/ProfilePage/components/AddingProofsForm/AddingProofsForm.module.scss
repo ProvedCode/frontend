@@ -1,0 +1,44 @@
+.add_proff_form {
+    background-color: #111111;
+    width: 100%;
+    padding: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.close {
+    font-weight: 800;
+    font-size: 25px;
+    color: white;
+    display: flex;
+    margin-left: auto;
+    padding: 5px 20px;
+    background: rgba(1, 1, 1, 0);
+    background-size: 100% 100%, 100% 100%;
+}
+.pr_title {
+    width: 100%;
+    padding: 5px;
+}
+.pr_link {
+    width: 100%;
+    padding: 5px;
+    margin-top: 20px;
+}
+.description {
+    padding: 10px;
+}
+.pr_description {
+    margin-top: 20px;
+    width: 100%;
+    min-height: 200px;
+}
+.btns {
+    margin-top: 60px;
+}
+.btn {
+    display: flex;
+    margin-left: auto;
+    padding: 5px 20px;
+}

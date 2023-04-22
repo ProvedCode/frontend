@@ -13,7 +13,7 @@ import { useCookies } from "react-cookie";
 import { AcceptingModal } from "./components/AcceptingModal";
 import { AddingProofsForm } from "./components/AddingProofsForm/AddingProofsForm";
 import { ListProofs } from "../TalentPage/components/ListProofs";
-
+import plus from "../../shared/images/plus.svg";
 export function ProfilePage() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -22,7 +22,7 @@ export function ProfilePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [editting, setEditting] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
-
+    const [isRotated, setIsRotated] = useState(false);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [proofsFormActive, setproofsFormActive] = useState(false);
 
@@ -471,7 +471,9 @@ export function ProfilePage() {
             }
         }
     }
-
+    function handleFirstClick() {
+        setproofsFormActive(true);
+    }
     return (
         <>
             <AcceptingModal
@@ -838,12 +840,16 @@ export function ProfilePage() {
             </div>
             <div className={s.proofs_side}>
                 <div className={s.updating_proofs}>
-                    <button
-                        className={s.add}
-                        onClick={() => setproofsFormActive(true)}
-                    >
-                        +
-                    </button>
+                    <img
+                        className={`${s.add} ${
+                            isRotated && proofsFormActive ? s.rotated : ""
+                        }`}
+                        onClick={() => {
+                            setproofsFormActive(!proofsFormActive);
+                            setIsRotated(!isRotated);
+                        }}
+                        src={plus}
+                    ></img>
                 </div>
 
                 {proofsFormActive && (

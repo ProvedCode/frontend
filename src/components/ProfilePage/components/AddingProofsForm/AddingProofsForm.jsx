@@ -31,9 +31,9 @@ export function AddingProofsForm({ active, setActive }) {
     return (
         <>
             <form action="" className={s.add_proff_form}>
-                <button className={s.close} onClick={() => setActive(false)}>
+                {/* <button className={s.close} onClick={() => setActive(false)}>
                     X
-                </button>
+                </button> */}
                 <div className={s.description}>
                     <Input
                         onChange={(e) => setLink(e.target.value)}

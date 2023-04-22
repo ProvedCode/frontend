@@ -188,12 +188,17 @@
     padding: 10px 10px;
 }
 .add {
-    background-color: rgba(1, 1, 1, 0);
-    font-size: 100px;
-    //min-width: 100px;
-    color: #fff;
+    transition-duration: 0.5s;
+    transform: rotate(0deg);
+    width: 4%;
+    height: 4%;
+    color: #a582f7;
 }
 
+.rotated {
+    transition-duration: 0.5s;
+    transform: rotate(45deg);
+}
 @media screen and (max-width: 1068px) {
     .container {
         display: table;

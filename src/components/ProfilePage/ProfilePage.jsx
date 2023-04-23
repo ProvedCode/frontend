@@ -28,8 +28,8 @@ export function ProfilePage() {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
-    const [isRotated, setIsRotated] = useState(false);
-    const [proofsFormActive, setproofsFormActive] = useState(false);
+
+    const [active, setActive] = useState(false);
 
     useEffect(() => {
         if (editting) {
@@ -276,22 +276,16 @@ export function ProfilePage() {
             <div className={s.proofs_side}>
                 <div className={s.updating_proofs}>
                     <img
-                        className={`${s.add} ${
-                            isRotated && proofsFormActive ? s.rotated : ""
-                        }`}
+                        className={`${s.add} ${active ? s.rotated : ""}`}
                         onClick={() => {
-                            setproofsFormActive(!proofsFormActive);
-                            setIsRotated(!isRotated);
+                            setActive((prev) => !prev);
                         }}
                         src={plus}
                     ></img>
                 </div>
 
-                {proofsFormActive && (
-                    <AddingProofsForm
-                        active={proofsFormActive}
-                        setActive={setproofsFormActive}
-                    />
+                {active && (
+                    <AddingProofsForm active={active} setActive={setActive} />
                 )}
             </div>
             {user.id ? (

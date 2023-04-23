@@ -1,7 +1,5 @@
 import { useState, useContext } from "react";
-import { Button } from "../../../../shared/components";
-import { Input } from "../../../../shared/components";
-import { Textarea } from "../../../../shared/components";
+import { Button, Input } from "../../../../shared/components";
 import { TalentsService } from "../../../../services/api-services";
 import { UserContext } from "../../../../context/UserContext";
 import s from "./AddingProofsForm.module.scss";
@@ -17,9 +15,7 @@ export function AddingProofsForm({ active, setActive }) {
         TalentsService.addProof(proof, user.id, token)
             .then(() => {
                 if (text !== "") {
-                    const allProofs = [...talentsProofs, proof];
-                    setTalentsProofs(allProofs);
-                    console.log(allProofs);
+                    setTalentsProofs((prev) => [...prev, proof]);
                 }
                 setActive(false);
             })
@@ -44,7 +40,7 @@ export function AddingProofsForm({ active, setActive }) {
                         placeholder="Paste only one link"
                     />
 
-                    <Textarea
+                    <textarea
                         onChange={(e) => setText(e.target.value)}
                         value={text}
                         className={s.pr_description}

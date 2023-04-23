@@ -3,9 +3,9 @@ import { Button, Input } from "../../../../shared/components";
 import { TalentsService } from "../../../../services/api-services";
 import { UserContext } from "../../../../context/UserContext";
 import s from "./AddingProofsForm.module.scss";
-export function AddingProofsForm({ active, setActive }) {
+export function AddingProofsForm({ active, setActive, user, token }) {
     //const [id, setId]=useState(0)
-    const { user, token } = useContext(UserContext);
+
     const [link, setLink] = useState("");
     const [text, setText] = useState("");
     const [talentsProofs, setTalentsProofs] = useState([]);

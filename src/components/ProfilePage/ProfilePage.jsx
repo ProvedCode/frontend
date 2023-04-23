@@ -11,7 +11,7 @@ import { TalentData } from "./components/TalentData/TalentData";
 import { About } from "./components/About";
 import { ListProofs } from "../TalentPage/components/ListProofs";
 import { AddingProofsForm } from "./components/AddingProofsForm/AddingProofsForm";
-import plus from "../../shared/images/plus.svg";
+
 export function ProfilePage() {
     const navigate = useNavigate();
     const location = useLocation();
@@ -28,8 +28,6 @@ export function ProfilePage() {
 
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
-
-    const [active, setActive] = useState(false);
 
     useEffect(() => {
         if (editting) {
@@ -274,19 +272,7 @@ export function ProfilePage() {
                 <About {...propsAbout} ref={aboutRef} />
             </div>
             <div className={s.proofs_side}>
-                <div className={s.updating_proofs}>
-                    <img
-                        className={`${s.add} ${active ? s.rotated : ""}`}
-                        onClick={() => {
-                            setActive((prev) => !prev);
-                        }}
-                        src={plus}
-                    ></img>
-                </div>
-
-                {active && (
-                    <AddingProofsForm active={active} setActive={setActive} />
-                )}
+                <AddingProofsForm user={user} token={token} />
             </div>
             {user.id ? (
                 <ListProofs id={user.id} />

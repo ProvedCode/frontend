@@ -1,11 +1,10 @@
-import { useState, useContext } from "react";
-import { Button, Input } from "../../../../shared/components";
+import { useState } from "react";
+import { Button, Input, Textarea } from "../../../../shared/components";
 import { TalentsService } from "../../../../services/api-services";
-import { UserContext } from "../../../../context/UserContext";
 import s from "./AddingProofsForm.module.scss";
-export function AddingProofsForm({ active, setActive, user, token }) {
-    //const [id, setId]=useState(0)
-
+import plus from "../../../../shared/images/plus.svg";
+export function AddingProofsForm({ user, token }) {
+    const [activeProofs, setActiveProofs] = useState(false);
     const [link, setLink] = useState("");
     const [text, setText] = useState("");
     const [talentsProofs, setTalentsProofs] = useState([]);
@@ -17,7 +16,9 @@ export function AddingProofsForm({ active, setActive, user, token }) {
                 if (text !== "") {
                     setTalentsProofs((prev) => [...prev, proof]);
                 }
-                setActive(false);
+                setActiveProofs(false);
+                setLink("");
+                setText("");
             })
             .catch((error) => {
                 console.log(error);
@@ -26,34 +27,42 @@ export function AddingProofsForm({ active, setActive, user, token }) {
 
     return (
         <>
-            <form action="" className={s.add_proff_form}>
-                {/* <button className={s.close} onClick={() => setActive(false)}>
-                    X
-                </button> */}
-                <div className={s.description}>
-                    <Input
-                        onChange={(e) => setLink(e.target.value)}
-                        value={link}
-                        className={s.pr_link}
-                        type="text"
-                        name="proofsLink"
-                        placeholder="Paste only one link"
-                    />
+            <div className={s.updating_proofs}>
+                <img
+                    className={`${s.add} ${activeProofs ? s.rotated : ""}`}
+                    onClick={() => {
+                        setActiveProofs((prev) => !prev);
+                    }}
+                    src={plus}
+                ></img>
+            </div>
 
-                    <textarea
-                        onChange={(e) => setText(e.target.value)}
-                        value={text}
-                        className={s.pr_description}
-                        name="proofsDescription"
-                        placeholder="Write the description"
-                    />
-                    <div className={s.btns}>
-                        <Button className={s.btn} onClick={handle}>
-                            Publish
-                        </Button>
+            {activeProofs && (
+                <form action="" className={s.add_proff_form}>
+                    <div className={s.description}>
+                        <Input
+                            onChange={(e) => setLink(e.target.value)}
+                            value={link}
+                            className={s.pr_link}
+                            type="text"
+                            placeholder="Paste only one link"
+                            autoComplete="off"
+                        />
+
+                        <Textarea
+                            onChange={(e) => setText(e.target.value)}
+                            value={text}
+                            className={s.pr_description}
+                            placeholder="Write the description"
+                        />
+                        <div className={s.btns}>
+                            <Button className={s.btn} onClick={handle}>
+                                Publish
+                            </Button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            )}
         </>
     );
 }

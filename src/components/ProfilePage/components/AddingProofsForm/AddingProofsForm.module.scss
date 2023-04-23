@@ -1,3 +1,20 @@
+.updating_proofs {
+    display: flex;
+    justify-content: center;
+}
+.add {
+    transition-duration: 0.5s;
+    transform: rotate(0deg);
+    width: 50px;
+    height: 50px;
+    color: #a582f7;
+    cursor: pointer;
+}
+
+.rotated {
+    transition-duration: 0.5s;
+    transform: rotate(45deg);
+}
 .add_proff_form {
     background-color: #111111;
     width: 100%;
@@ -31,31 +48,11 @@
     padding: 5px;
 }
 .pr_description {
+    font-size: 22px;
     margin-top: 20px;
     width: 100%;
     min-height: 180px;
-    font-size: 22px;
     border-radius: 8px;
-    color: #adadad;
-    border: 3px solid transparent;
-    background: linear-gradient(0deg, #000, #000) padding-box,
-        linear-gradient(180deg, #ce9ffc 0%, #a582f7 50%, #7367f0 100%)
-            border-box;
-    background-size: 100% 100%, 100% 100%;
-    padding: 5px 10px;
-    resize: none;
-    overflow: auto;
-    &:focus {
-        color: #fff;
-        background: #000;
-        border: 3px solid #fff;
-    }
-    &::-webkit-scrollbar-thumb {
-        border-top: 2px solid rgba(255, 255, 255, 0);
-        border-bottom: 2px solid rgba(255, 255, 255, 0);
-        border-right: 2px solid rgba(255, 255, 255, 0);
-        background-clip: padding-box;
-    }
 }
 .btns {
     margin-top: 30px;

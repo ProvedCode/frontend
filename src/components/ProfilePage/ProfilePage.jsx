@@ -221,6 +221,7 @@ export function ProfilePage() {
                 console.error(error);
             }
         }
+        sessionStorage.setItem("profile", JSON.stringify(profile));
     }
 
     const propsTalentData = {
@@ -253,6 +254,7 @@ export function ProfilePage() {
         setContacts,
         saveError,
     };
+
     return (
         <>
             <AcceptingModal

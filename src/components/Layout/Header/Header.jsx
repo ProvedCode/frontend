@@ -12,9 +12,10 @@ export function Header() {
         return location.pathname + location.search + "#auth";
     }, [location]);
 
-    const { auth, user } = useContext(UserContext);
+    const { auth } = useContext(UserContext);
+    const profile = JSON.parse(sessionStorage.getItem("profile"));
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
-
+    console.log(profile);
     const menuItems = useMemo(
         () => [
             // { title: "Home", link: "/" },
@@ -56,7 +57,11 @@ export function Header() {
                     ) : (
                         <>
                             <Link to="/profile" className={s.username}>
-                                {user && user.first_name + " " + user.last_name}
+                                {profile?.first_name && profile?.last_name
+                                    ? profile?.first_name +
+                                      " " +
+                                      profile?.last_name
+                                    : ""}
                             </Link>
                             <Button
                                 className={s.btn}

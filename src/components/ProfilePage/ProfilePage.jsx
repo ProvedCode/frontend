@@ -25,7 +25,7 @@ export function ProfilePage() {
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 
     const [editting, setEditting] = useState(false);
-
+    const { setUserInfo } = useContext(UserContext);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
 
@@ -102,6 +102,9 @@ export function ProfilePage() {
     //     error: "",
     //     state: true,
     // });
+    useEffect(() => {
+        setUserInfo(profile);
+    }, [profile]);
 
     useEffect(() => {
         if (Object.keys(profile).length !== 0) {
@@ -211,6 +214,10 @@ export function ProfilePage() {
                             contacts: normalizeContacts(contacts.contacts),
                         }));
                         setEditting(false);
+                        sessionStorage.setItem("profile", {
+                            first_name: firstName.name,
+                            last_name: lastName.name,
+                        });
                     })
                     .catch((error) => {
                         if (error.response.status === 400) {
@@ -221,7 +228,6 @@ export function ProfilePage() {
                 console.error(error);
             }
         }
-        sessionStorage.setItem("profile", JSON.stringify(profile));
     }
 
     const propsTalentData = {
@@ -240,6 +246,7 @@ export function ProfilePage() {
         links,
         setLinks,
     };
+
     const propsAbout = {
         profile,
         editting,

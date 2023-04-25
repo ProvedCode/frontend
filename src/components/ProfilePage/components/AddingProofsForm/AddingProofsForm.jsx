@@ -17,7 +17,7 @@ export function AddingProofsForm({ user, token }) {
 
         TalentsService.addProof(proof, user.id, token)
 
-            .then((response) => {
+            .then(() => {
                 TalentsService.getProofs(user.id, token)
                     .then((proofs) => {
                         setTalentsProofs(proofs);

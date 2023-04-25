@@ -296,7 +296,10 @@ export function Register({ switcher }) {
                     });
                     setAuth(true);
                     redirectAfterRegister();
-                    sessionStorage.setItem("profile", JSON.stringify(newUser));
+                    sessionStorage.setItem("profile", {
+                        first_name: firstName.name,
+                        last_name: lastName.name,
+                    });
                 })
                 .catch((err) => {
                     if (err.response.status === 401) {

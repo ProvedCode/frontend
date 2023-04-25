@@ -1,9 +1,10 @@
-import { useCallback, useContext, useMemo, useState } from "react";
+import { useCallback, useContext, useMemo, useState, useEffect } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import s from "./Header.module.scss";
 import { Button } from "../../../shared/components";
 import { UserContext } from "../../../context/UserContext";
 import { useCookies } from "react-cookie"; // temp
+import { TalentsService } from "../../../services/api-services";
 
 export function Header() {
     const navigate = useNavigate();
@@ -12,10 +13,25 @@ export function Header() {
         return location.pathname + location.search + "#auth";
     }, [location]);
 
-    const { auth } = useContext(UserContext);
-    const profile = JSON.parse(sessionStorage.getItem("profile"));
+    const { auth, user, token, userInfo, setUserInfo } =
+        useContext(UserContext);
+
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
-    console.log(profile);
+
+    const [profile, setProfile] = useState({});
+
+    useEffect(() => {
+        if (user.id) {
+            TalentsService.getTalent(user.id, token)
+                .then((response) => {
+                    setUserInfo(response);
+                    setProfile(response);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [user.id]);
     const menuItems = useMemo(
         () => [
             // { title: "Home", link: "/" },
@@ -48,19 +64,20 @@ export function Header() {
                     {!auth ? (
                         <Button
                             className={s.btn}
-                            onClick={() =>
-                                navigate(editPath(), { replace: true })
-                            }
+                            onClick={() => {
+                                navigate(editPath(), { replace: true });
+                                console.log(userInfo);
+                            }}
                         >
                             Login / Register
                         </Button>
                     ) : (
                         <>
                             <Link to="/profile" className={s.username}>
-                                {profile?.first_name && profile?.last_name
-                                    ? profile?.first_name +
+                                {userInfo?.first_name && userInfo?.last_name
+                                    ? userInfo?.first_name +
                                       " " +
-                                      profile?.last_name
+                                      userInfo?.last_name
                                     : ""}
                             </Link>
                             <Button
@@ -69,6 +86,7 @@ export function Header() {
                                     removeCookie("token");
                                     removeCookie("user");
                                     navigate("/", { replace: true });
+                                    setUserInfo({});
                                 }}
                             >
                                 Log Out

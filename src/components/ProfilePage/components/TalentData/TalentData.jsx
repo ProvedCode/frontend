@@ -1,9 +1,15 @@
-import React, { useCallback, forwardRef, useImperativeHandle } from "react";
+import React, {
+    useCallback,
+    forwardRef,
+    useImperativeHandle,
+    useContext,
+} from "react";
 import { Input, Button } from "../../../../shared/components";
 import userAvatar from "../../../../shared/images/user.png";
 import plus from "./images/plus.svg";
 import linkedin from "../../../../shared/images/linkedin.svg";
 import github from "../../../../shared/images/github.svg";
+
 import s from "./TalentData.module.scss";
 import {
     validateFirstName,
@@ -31,7 +37,7 @@ export const TalentData = forwardRef((props, ref) => {
         links,
         setLinks,
     } = props;
-    sessionStorage.setItem("profile", JSON.stringify(profile));
+
     const valideTalentData = useCallback(() => {
         setFirstName((prev) => ({
             ...prev,
@@ -41,6 +47,7 @@ export const TalentData = forwardRef((props, ref) => {
             ...prev,
             ...validateLastName(lastName.name),
         }));
+
         setSpecialization((prev) => ({
             ...prev,
             ...validateSpecialization(specialization.spec),

@@ -13,7 +13,7 @@ export function ListProofs({ id }) {
                 setTalentsProofs(proofs);
             })
             .catch((err) => console.log(err));
-    }, []);
+    }, [talentsProofs]);
 
     return (
         <>

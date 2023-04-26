@@ -296,18 +296,10 @@ export function Register({ switcher }) {
                     });
                     setAuth(true);
                     redirectAfterRegister();
-                    sessionStorage.setItem("profile", {
-                        first_name: firstName.name,
-                        last_name: lastName.name,
-                    });
                 })
                 .catch((err) => {
-                    if (err.response.status === 401) {
-                        // something
-                    }
+                    console.log(err);
                 });
-        } else {
-            // setErrMessage("Incorrect Login or Password");
         }
     }
     return (

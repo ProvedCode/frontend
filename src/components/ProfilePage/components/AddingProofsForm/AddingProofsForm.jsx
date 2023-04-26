@@ -7,21 +7,24 @@ export function AddingProofsForm({ user, token }) {
     const [activeProofs, setActiveProofs] = useState(false);
     const [link, setLink] = useState("");
     const [text, setText] = useState("");
-    const [talentsProofs, setTalentsProofs] = useState([]);
+    const [addProofError, setAddProofError] = useState("");
+    
     function handle(e) {
         e.preventDefault();
         const proof = { link, text };
         TalentsService.addProof(proof, user.id, token)
             .then(() => {
-                if (text !== "") {
-                    setTalentsProofs((prev) => [...prev, proof]);
-                }
                 setActiveProofs(false);
                 setLink("");
                 setText("");
+                setAddProofError("");
             })
             .catch((error) => {
-                console.log(error);
+                if (error.response.status === 400 || error.response.status === 500) {
+                    setAddProofError("Incorrect link or description entered");
+                }else{
+                    setAddProofError("Something goes wrong");
+                }
             });
     }
 
@@ -32,6 +35,7 @@ export function AddingProofsForm({ user, token }) {
                     className={`${s.add} ${activeProofs ? s.rotated : ""}`}
                     onClick={() => {
                         setActiveProofs((prev) => !prev);
+                        setAddProofError("");
                     }}
                     src={plus}
                 ></img>
@@ -55,7 +59,9 @@ export function AddingProofsForm({ user, token }) {
                             className={s.pr_description}
                             placeholder="Write the description"
                         />
+                        
                         <div className={s.btns}>
+                        <span className={s.error} >{addProofError}</span>
                             <Button className={s.btn} onClick={handle}>
                                 Publish
                             </Button>

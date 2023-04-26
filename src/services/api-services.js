@@ -136,13 +136,18 @@ export const TalentsService = {
         const headers = {
             Authorization: `Bearer ${token}`,
         };
-        const response = await axiosInstance.post(
-            `talents/${id}/proofs`,
-            proof,
-            {
-                headers,
-            }
-        );
-        return response;
+        try{
+            const response = await axiosInstance.post(
+                `talents/${id}/proofs`,
+                proof,
+                {
+                    headers,
+                }
+            );
+            return response;
+        }catch(error){
+            console.log(error);
+            throw error;
+        }
     },
 };

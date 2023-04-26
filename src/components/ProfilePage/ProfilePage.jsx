@@ -9,8 +9,8 @@ import { useCookies } from "react-cookie";
 import { AcceptingModal } from "./components/AcceptingModal";
 import { TalentData } from "./components/TalentData/TalentData";
 import { About } from "./components/About";
-import { ListProofs } from "../TalentPage/components/ListProofs";
 import { AddingProofsForm } from "./components/AddingProofsForm/AddingProofsForm";
+import { ProfileListProofs } from "./components/ProfileListProofs";
 
 export function ProfilePage() {
     const navigate = useNavigate();
@@ -275,7 +275,7 @@ export function ProfilePage() {
                 <AddingProofsForm user={user} token={token} />
             </div>
             {user.id ? (
-                <ListProofs id={user.id} />
+                <ProfileListProofs id={user.id} />
             ) : (
                 <span>
                     <div className={s.no_proofs}>Something went wrong</div>

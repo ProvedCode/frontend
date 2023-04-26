@@ -214,10 +214,10 @@ export function ProfilePage() {
                             contacts: normalizeContacts(contacts.contacts),
                         }));
                         setEditting(false);
-                        sessionStorage.setItem("profile", {
-                            first_name: firstName.name,
-                            last_name: lastName.name,
-                        });
+                        // sessionStorage.setItem("profile", {
+                        //     first_name: firstName.name,
+                        //     last_name: lastName.name,
+                        // });
                     })
                     .catch((error) => {
                         if (error.response.status === 400) {

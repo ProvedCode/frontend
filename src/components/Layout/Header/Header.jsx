@@ -18,14 +18,11 @@ export function Header() {
 
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 
-    const [profile, setProfile] = useState({});
-
     useEffect(() => {
         if (user.id) {
             TalentsService.getTalent(user.id, token)
                 .then((response) => {
                     setUserInfo(response);
-                    setProfile(response);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -66,7 +63,6 @@ export function Header() {
                             className={s.btn}
                             onClick={() => {
                                 navigate(editPath(), { replace: true });
-                                console.log(userInfo);
                             }}
                         >
                             Login / Register

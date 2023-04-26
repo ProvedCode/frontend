@@ -43,14 +43,23 @@ export function ListProofsPage() {
     }, [page, searchParams, size]);
 
     useEffect(() => {
-        TalentsService.getAllProofs(
-            searchParams.get("page") || 0,
-            pages.size,
-            pages.orderBy
-        ).then((res) => {
-            setProofs(res.content);
-            setCountOfPages(res.total_pages);
-        });
+        if (0 < page < countOfPages) {
+            TalentsService.getAllProofs(
+                searchParams.get("page") || "",
+                pages.size,
+                pages.orderBy
+            ).then((res) => {
+                setProofs(res.content);
+                setCountOfPages(res.total_pages);
+            });
+        } else {
+            TalentsService.getAllProofs(0, pages.size, pages.orderBy).then(
+                (res) => {
+                    setProofs(res.content);
+                    setCountOfPages(res.total_pages);
+                }
+            );
+        }
     }, [pages, page, size]);
 
     const filterByDateAsc = () => {

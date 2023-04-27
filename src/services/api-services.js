@@ -171,4 +171,19 @@ export const TalentsService = {
             throw error;
         }
     },
+
+    async deleteProof(id, idProof, token) {
+        try{
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+            const response = await axiosInstance.delete(`talents/${id}/proofs/${idProof}`, {
+                headers,
+            });
+            return response;
+        }catch(error){
+            console.log(error);
+            return error;
+        }
+    },
 };

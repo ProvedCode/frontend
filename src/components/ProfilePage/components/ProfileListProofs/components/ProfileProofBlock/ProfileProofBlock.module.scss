@@ -19,10 +19,6 @@
     background-image: url("images/fire.svg");
     background-repeat: no-repeat;
     background-position: bottom -70px right -40px;
-    // & * {
-    //     position: relative;
-    //     z-index: 2;
-    // }
 
     &:hover {
         box-shadow: 8px 8px 15px rgba(185, 145, 250, 0.5), inset 5px 5px 10px #111111;
@@ -66,7 +62,7 @@
     display: none;
     position: absolute;
     right: 25%;
-    top: 100%;
+    top: 110%;
     min-width: 90px;
     z-index: 1;
     background: #2a2a2a;
@@ -123,6 +119,7 @@
     margin-top: 10px;
     overflow: hidden;
     width: 100%;
+    word-break: break-all;
 }
 
 .date {

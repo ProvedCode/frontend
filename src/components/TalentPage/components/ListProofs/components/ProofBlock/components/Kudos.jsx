@@ -9,6 +9,9 @@ export function Kudos({ id }) {
     const [isLiked, setIsLiked] = useState(false);
     const { token } = useContext(UserContext);
     const { page, size } = useContext(TalentsContext);
+    const { talentsProofs } = useContext(UserContext);
+    const { user } = useContext(UserContext);
+
     useEffect(() => {
         TalentsService.getKudos(id, token)
             .then((kudos) => {
@@ -23,11 +26,9 @@ export function Kudos({ id }) {
             if (!isLiked) {
                 TalentsService.putKudos(id, token)
                     .then((response) => {
-                        if (response.response.status !== 403) {
-                            setKudos(kudos + 1);
+                        setKudos(kudos + 1);
 
-                            setIsLiked(!isLiked);
-                        }
+                        setIsLiked(!isLiked);
                     })
                     .catch((err) => console.log(err));
             } else {

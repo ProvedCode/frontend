@@ -4,6 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import { UserContext } from "../../../../context/UserContext";
 import s from "./ProfileListProofs.module.scss";
 import { AddingProofsForm } from "../AddingProofsForm/AddingProofsForm";
+import { Kudos } from "../../../TalentPage/components/ListProofs/components/ProofBlock/components/Kudos";
 
 export function ProfileListProofs({ id, token }) {
     const { talentsProofs, setTalentsProofs } = useContext(UserContext);
@@ -14,7 +15,9 @@ export function ProfileListProofs({ id, token }) {
             TalentsService.getProofs(id, token)
                 .then((proofs) => {
                     setTalentsProofs(proofs);
-                    setEditProof(proofs.map((el) => ({ id: el.id, edit: false })));
+                    setEditProof(
+                        proofs.map((el) => ({ id: el.id, edit: false }))
+                    );
                 })
                 .catch((err) => console.log(err));
         }

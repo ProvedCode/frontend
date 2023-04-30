@@ -1,9 +1,9 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../shared/components";
+
 import { TalentsContext } from "../../../context/TalentsContext";
 import s from "./Footer.module.scss";
-import classNames from "classnames";
 
 export function Footer() {
     const { page, size } = useContext(TalentsContext);
@@ -32,35 +32,12 @@ export function Footer() {
         "FAQ",
     ];
 
-    const [isVisible, setIsVisible] = useState(false);
-    const ref = useRef(null);
-
-    useEffect(() => {
-        const element = ref.current;
-        const onScroll = () => {
-            const scrollY = window.scrollY;
-            const top = element.offsetTop;
-            const height = element.offsetHeight;
-            if (scrollY > top - window.innerHeight + height / 2) {
-                setIsVisible(true);
-            } else {
-                setIsVisible(false);
-            }
-        };
-        window.addEventListener("scroll", onScroll);
-        return () => window.removeEventListener("scroll", onScroll);
-    }, []);
-
     return (
-        <footer ref={ref}>
+        <footer className={s.footer}>
             <div className="__container">
                 <div className={s.content}>
                     <div className={s.first_column}>
-                        <div
-                            className={classNames(s.titles, {
-                                [s.visible]: isVisible,
-                            })}
-                        >
+                        <div className={s.titles}>
                             <div>
                                 {titles1.map((el) => {
                                     return <p className={s.title}>{el}</p>;

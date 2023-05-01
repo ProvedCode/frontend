@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../shared/components";
-
 import { TalentsContext } from "../../../context/TalentsContext";
 import s from "./Footer.module.scss";
 
@@ -39,23 +38,39 @@ export function Footer() {
                     <div className={s.first_column}>
                         <div className={s.titles}>
                             <div>
-                                {titles1.map((el) => {
-                                    return <p className={s.title}>{el}</p>;
+                                {titles1.map((el, index) => {
+                                    return (
+                                        <p key={index} className={s.title}>
+                                            {el}
+                                        </p>
+                                    );
                                 })}
                             </div>
                             <div>
-                                {titles2.map((el) => {
-                                    return <p className={s.title}>{el}</p>;
+                                {titles2.map((el, index) => {
+                                    return (
+                                        <p key={index} className={s.title}>
+                                            {el}
+                                        </p>
+                                    );
                                 })}
                             </div>
                             <div>
-                                {titles3.map((el) => {
-                                    return <p className={s.title}>{el}</p>;
+                                {titles3.map((el, index) => {
+                                    return (
+                                        <p key={index} className={s.title}>
+                                            {el}
+                                        </p>
+                                    );
                                 })}
                             </div>
                             <div>
-                                {titles4.map((el) => {
-                                    return <p className={s.title}>{el}</p>;
+                                {titles4.map((el, index) => {
+                                    return (
+                                        <p key={index} className={s.title}>
+                                            {el}
+                                        </p>
+                                    );
                                 })}
                             </div>
                         </div>

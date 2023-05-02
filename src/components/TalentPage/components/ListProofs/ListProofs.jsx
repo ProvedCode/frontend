@@ -15,7 +15,6 @@ export function ListProofs({ id }) {
             })
             .catch((err) => console.log(err));
     }, [talentsProofs.length]);
-
     return (
         <>
             {talentsProofs.length > 0 ? (
@@ -28,6 +27,7 @@ export function ListProofs({ id }) {
                                 link={el.link}
                                 text={el.text}
                                 created={el.created}
+                                status={el.status}
                             />
                         );
                     })}

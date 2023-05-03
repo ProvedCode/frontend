@@ -2,8 +2,7 @@ import { useEffect, useState } from "react";
 import { TalentsService } from "../../../../../../services/api-services";
 import s from "./ProfileProofBlock.module.scss";
 import { handlerDropdown } from "./dropdown";
-import { DeletingProofModal } from "../DeletingProofModal";
-import { Kudos } from "../../../../../TalentPage/components/ListProofs/components/ProofBlock/components/Kudos";
+
 export function ProfileProofBlock({
     id,
     userID,
@@ -16,7 +15,7 @@ export function ProfileProofBlock({
     setTalentsProofs,
     editProof,
     setEditProof,
-    setModalIsOpen,
+    setDeleteModalIsOpen,
     setProofID,
 }) {
     window.onclick = (event) => {
@@ -91,7 +90,7 @@ export function ProfileProofBlock({
                                     ""
                                 )}
                                 {status === "PUBLISHED" ? <button onClick={() => save("HIDDEN")}>Hide</button> : ""}
-                                <button onClick={() => setModalIsOpen(true)}>Delete</button>
+                                <button onClick={() => setDeleteModalIsOpen(true)}>Delete</button>
                             </div>
                         </div>
                         <span className={s.status}>{status.toLocaleLowerCase()}</span>

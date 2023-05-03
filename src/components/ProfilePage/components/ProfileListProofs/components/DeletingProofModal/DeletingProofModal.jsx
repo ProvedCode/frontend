@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useCallback } from "react";
 import s from "./DeletingProofModal.module.scss";
 
-import { Button } from "../../../../../../../../shared/components";
-import { TalentsService } from "../../../../../../../../services/api-services";
+import { Button } from "../../../../../../shared/components";
+import { TalentsService } from "../../../../../../services/api-services";
 
 export function DeletingProofModal({
-	id,
-	userID,
+    id,
+    userID,
     token,
     modalIsOpen,
     setModalIsOpen,
-	talentsProofs,
-	setTalentsProofs
+    talentsProofs,
+    setTalentsProofs,
 }) {
     const window = useRef();
     useEffect(() => {
@@ -21,8 +21,7 @@ export function DeletingProofModal({
             }
         };
         document.addEventListener("mousedown", handleClickOutside);
-        return () =>
-            document.removeEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [setModalIsOpen]);
 
     const showModal = useCallback(() => {
@@ -33,7 +32,6 @@ export function DeletingProofModal({
     const hideModal = useCallback(() => {
         setModalIsOpen(false);
         document.body.style.overflowY = "auto";
-
     }, [setModalIsOpen]);
 
     useEffect(() => {
@@ -49,6 +47,7 @@ export function DeletingProofModal({
             TalentsService.deleteProof(userID, id, token)
                 .then(() => {
                     setTalentsProofs(talentsProofs.filter((el) => el.id !== id));
+                    hideModal();
                 })
                 .catch((error) => {
                     console.error(error);
@@ -60,24 +59,15 @@ export function DeletingProofModal({
 
     return (
         <div className={`${s.modal} ${modalIsOpen ? s.show : s.hide}`}>
-            <div
-                ref={window}
-                className={`${s.block_modal} ${modalIsOpen ? s.show : s.hide}`}
-            >
+            <div ref={window} className={`${s.block_modal} ${modalIsOpen ? s.show : s.hide}`}>
                 <div className={s.header}>
                     <span>Deleting</span>
-                    <button
-                        className={s.close}
-                        onClick={() => setModalIsOpen(false)}
-                    >
+                    <button className={s.close} onClick={() => setModalIsOpen(false)}>
                         &#215;
                     </button>
                 </div>
                 <div className={s.body}>
-                    <p>
-                        Are you sure you want to delete this proof
-                        permanently?
-                    </p>
+                    <p>Are you sure you want to delete this proof permanently?</p>
                 </div>
                 <div className={s.btns}>
                     <Button

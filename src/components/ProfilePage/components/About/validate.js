@@ -1,5 +1,5 @@
 export function validateBio(bio) {
-    const BIO_REGEXP = /^[A-Za-z0-9'".,:;@#?!()[\]*_/-\s]{0,3000}$/;
+    const BIO_REGEXP = /^[A-Za-z0-9'".,:;@#?!()[\]*_/-—\s]{0,3000}$/;
     if (BIO_REGEXP.test(String(bio).toLowerCase())) {
         return { error: "", state: true };
     } else {
@@ -14,27 +14,26 @@ export function validateBio(bio) {
 }
 
 export function validateAdditionalInfo(additionalInfo) {
-    const ADDTIONAL_INFO_REGEXP = /^[A-Za-z0-9'".,:;@#?!()[\]*_/-\s]{0,500}$/;
+    const ADDTIONAL_INFO_REGEXP = /^[A-Za-z0-9'".,:;@#?!()[\]*_/-—\s]{0,500}$/;
     if (ADDTIONAL_INFO_REGEXP.test(String(additionalInfo).toLowerCase())) {
         return { error: "", state: true };
     } else {
         let msg = "";
         if (additionalInfo.length > 500) {
-			msg = "*the value is too long (not more 500 symbols)";
+            msg = "*the value is too long (not more 500 symbols)";
         } else if (!ADDTIONAL_INFO_REGEXP.test(String(additionalInfo))) {
-			msg = "*using incorrect symbols";
+            msg = "*using incorrect symbols";
         }
         return { error: msg, state: false };
     }
 }
 
-
 export function validateContacts(contacts) {
-	if (contacts.length > 400) {
-		return { error: "*the value is too long (not more 400 symbols)", state: false };
-	} else {
-		return { error: "", state: true };
-	}
+    if (contacts.length > 400) {
+        return { error: "*the value is too long (not more 400 symbols)", state: false };
+    } else {
+        return { error: "", state: true };
+    }
 }
 
 // function validatePassword() {

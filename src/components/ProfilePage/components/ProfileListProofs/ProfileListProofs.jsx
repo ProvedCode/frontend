@@ -25,7 +25,6 @@ export function ProfileListProofs({ id, token }) {
                 .catch((err) => console.log(err));
         }
     }, [id, token, talentsProofs.length, setTalentsProofs]);
-
     return (
         <>
             {talentsProofs.length > 0 ? (

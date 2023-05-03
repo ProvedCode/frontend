@@ -9,9 +9,8 @@ export function Kudos({ id, myProofs}) {
     const [isLiked, setIsLiked] = useState(false);
     const { token } = useContext(UserContext);
     const { page, size } = useContext(TalentsContext);
-    // const { talentsProofs, setTalentsProofs } = useContext(UserContext);
 
-    myProofs = myProofs == null ? [] : myProofs.map((el) => el.id);
+    myProofs = myProofs === null ? [] : myProofs.map((el) => el.id);
 
     useEffect(() => {
         TalentsService.getKudos(id, token)

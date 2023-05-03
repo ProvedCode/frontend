@@ -3,19 +3,13 @@ import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../../../../../../context/UserContext";
 import { TalentsService } from "../../../../../../../services/api-services";
 import { TalentsContext } from "../../../../../../../context/TalentsContext";
-import { useSearchParams } from "react-router-dom";
 
 export function Kudos({ id }) {
     const [kudos, setKudos] = useState(0);
     const [isLiked, setIsLiked] = useState(false);
     const { token } = useContext(UserContext);
     const { page, size } = useContext(TalentsContext);
-    const { user } = useContext(UserContext);
-    const [pages, setPages] = useState({ page: 0, size: 5, orderBy: "desc" });
-    const [countOfPages, setCountOfPages] = useState(0);
-    const [searchParams, setSearchParams] = useSearchParams();
     const { talentsProofs, setTalentsProofs } = useContext(UserContext);
-    const [proofs, setProofs] = useState([]);
 
     const myProofs = talentsProofs.map((el) => el.id);
 
@@ -49,28 +43,6 @@ export function Kudos({ id }) {
             window.location.href = `proofs?page=${page}&size=${size}#auth`;
         }
     }
-    //ПОЛУЧАЕМ СВОИ ПРУФЫ
-
-    useEffect(() => {
-        if (user.id) {
-            TalentsService.getProofs(user.id, token)
-                .then((proofs) => {
-                    setTalentsProofs(proofs);
-                })
-                .catch((err) => console.log(err));
-        }
-    }, [id, token, talentsProofs.length, setTalentsProofs]);
-
-    useEffect(() => {
-        TalentsService.getAllProofs(
-            searchParams.get("page") || "",
-            pages.size,
-            pages.orderBy
-        ).then((res) => {
-            setProofs(res.content);
-            setCountOfPages(res.total_pages);
-        });
-    }, [pages, page, size]);
 
     return (
         <div className={s.kudos_block}>

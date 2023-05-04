@@ -16,6 +16,7 @@ export function ListProofs({ id }) {
                 setSize(
                     proofs.total_elements === 0 ? 5 : proofs.total_elements
                 );
+
             })
             .catch((err) => console.log(err));
     }, [talentsProofs.length]);

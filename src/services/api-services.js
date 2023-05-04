@@ -91,7 +91,7 @@ export const TalentsService = {
             return error;
         }
     },
-    async getProofs(id, token, size = "") {
+    async getProofs(id, token, size = 5) {
         const headers = {
             Authorization: `Bearer ${token}`,
         };

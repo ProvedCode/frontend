@@ -200,12 +200,11 @@ export const TalentsService = {
             throw error;
         }
     },
-    async getKudos(id, token) {
+    async getSponsorKudoses(id, token) {
         try {
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
-
             let response = await axiosInstance.get(
                 `v3/sponsors/${id}/kudos`,
 

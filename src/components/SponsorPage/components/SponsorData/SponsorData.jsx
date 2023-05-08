@@ -9,7 +9,7 @@ export function SponsorData() {
 
     useEffect(() => {
         if (user.id) {
-            TalentsService.getKudos(user.id, token)
+            TalentsService.getSponsorKudoses(user.id, token)
                 .then((kudos) => {
                     setKudos(kudos.amount);
                 })

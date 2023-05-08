@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { TalentsService } from "../../services/api-services";
 import { UserContext } from "../../context/UserContext";
 import { useCookies } from "react-cookie";
-import { SponsorData } from "./components/SponsorData/SponsorData";
+import { SponsorData } from "./components/SponsorData";
 export function SponsorPage() {
     const navigate = useNavigate();
     const location = useLocation();

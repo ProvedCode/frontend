@@ -233,15 +233,10 @@ export function Register({ switcher }) {
     }
 
     function validateForm() {
-        let validateSp = " ";
-        if (!isSponsor) {
-            validateSp = validateSpecialization();
-        }
-
         return (
             validateFirstName() &&
             validateLastName() &&
-            validateSp &&
+            (isSponsor || validateSpecialization()) &&
             validateEmail() &&
             validatePassword() &&
             validateRepeatPassword()
@@ -295,47 +290,32 @@ export function Register({ switcher }) {
                 password: password.pswd,
                 specialization: specialization.spec,
             };
-            if (!isSponsor) {
-                TalentsService.registerTalent(newUser)
-                    .then((response) => {
-                        resetAll();
-                        const { token, ...user } = response;
-                        setCookie("token", token, {
-                            path: "/",
-                            maxAge: 3600,
-                        });
-                        setCookie("user", JSON.stringify(user), {
-                            path: "/",
-                            maxAge: 3600,
-                        });
-                        setAuth(true);
-                        redirectAfterRegister();
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                    });
-            } else {
-                TalentsService.registerSponsor(newUser)
-                    .then((response) => {
-                        resetAll();
-                        const { token, ...user } = response;
-                        setCookie("token", token, {
-                            path: "/",
-                            maxAge: 3600,
-                        });
-                        setCookie("user", JSON.stringify(user), {
-                            path: "/",
-                            maxAge: 3600,
-                        });
-                        setAuth(true);
-                        redirectAfterRegister();
+            const service = isSponsor
+                ? TalentsService.registerSponsor
+                : TalentsService.registerTalent;
 
-                        navigate(`/sponsor`);
-                    })
-                    .catch((err) => {
-                        console.log(err);
+            service(newUser)
+                .then((response) => {
+                    resetAll();
+                    const { token, ...user } = response;
+                    setCookie("token", token, {
+                        path: "/",
+                        maxAge: 3600,
                     });
-            }
+                    setCookie("user", JSON.stringify(user), {
+                        path: "/",
+                        maxAge: 3600,
+                    });
+                    setAuth(true);
+                    redirectAfterRegister();
+
+                    if (isSponsor) {
+                        navigate(`/sponsor`);
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     }
     return (

@@ -3,11 +3,11 @@ import { Layout } from "../components/Layout";
 import { TalentPage } from "../components/TalentPage";
 import { TalentsListPage } from "../components/TalentsListPage";
 import { ProfilePage } from "../components/ProfilePage";
-import { SponsorPage } from "../components/SponsorPage/SponsorPage";
+import { SponsorPage } from "../components/SponsorPage";
 import "./App.scss";
-import { NotFoundPage } from "../components/NotFoundPage/NotFoundPage";
+import { NotFoundPage } from "../components/NotFoundPage";
 import { RequireAuth } from "../hoc/RequireAuth";
-import { ListProofsPage } from "../components/ListProofsPage/ListProofsPage";
+import { ListProofsPage } from "../components/ListProofsPage";
 
 export function App() {
     return (

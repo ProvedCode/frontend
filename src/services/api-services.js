@@ -57,7 +57,7 @@ export const TalentsService = {
         };
         try {
             const response = await axiosInstance.post(
-                `v2/talents/login`,
+                `v2/login`,
                 {},
                 { headers }
             );
@@ -66,6 +66,7 @@ export const TalentsService = {
             throw error;
         }
     },
+
     async registerTalent(newUser) {
         try {
             const response = await axiosInstance.post(`v2/talents/register`, {

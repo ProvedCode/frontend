@@ -26,15 +26,9 @@ export function SponsorPage() {
     // const [saveError, setSaveError] = useState("");
 
     useEffect(() => {
-        if (editting) {
-            navigate(`${location.pathname}${location.search}#edit`, {
-                replace: true,
-            });
-        } else if (!editting) {
-            navigate(`${location.pathname}${location.search}`, {
-                replace: true,
-            });
-        }
+        const path = `${location.pathname}${location.search}`;
+        const hash = editting ? "#edit" : "";
+        navigate(`${path}${hash}`, { replace: true });
     }, [editting, navigate, location.pathname, location.search]);
 
     useEffect(() => {

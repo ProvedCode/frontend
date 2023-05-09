@@ -27,7 +27,7 @@ export function Header() {
                 .catch((error) => {
                     console.log(error);
                 });
-        } else if (user.role === "SPONSOR") {
+        } else if (user.id && user.role === "SPONSOR") {
             TalentsService.getSponsor(user.id, token)
                 .then((response) => {
                     setUserInfo(response);

@@ -7,30 +7,42 @@ import { TalentsService } from "../../services/api-services";
 import { UserContext } from "../../context/UserContext";
 import { useCookies } from "react-cookie";
 import { SponsorData } from "./components/SponsorData";
+import { SponsorAbout } from "./components/SponsorAbout/SponsorAbout";
 export function SponsorPage() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    // const talentDataRef = useRef(null);
-    // const aboutRef = useRef(null);
+    const talentDataRef = useRef(null);
+    const aboutRef = useRef(null);
 
     const { user, token } = useContext(UserContext);
     const [profile, setProfile] = useState({});
     const [isLoading, setIsLoading] = useState(false);
-    // const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
+    const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
 
     const [editting, setEditting] = useState(false);
-    // const { setUserInfo } = useContext(UserContext);
-    // const [modalIsOpen, setModalIsOpen] = useState(false);
-    // const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
-    // const [saveError, setSaveError] = useState("");
-
+    const { setUserInfo, kudos, setKudos } = useContext(UserContext);
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
+    const [saveError, setSaveError] = useState("");
+    const [state, setState] = useState(0);
     useEffect(() => {
         const path = `${location.pathname}${location.search}`;
         const hash = editting ? "#edit" : "";
         navigate(`${path}${hash}`, { replace: true });
     }, [editting, navigate, location.pathname, location.search]);
 
+    useEffect(() => {
+        if (editting) {
+            navigate(`${location.pathname}${location.search}#edit`, {
+                replace: true,
+            });
+        } else if (!editting) {
+            navigate(`${location.pathname}${location.search}`, {
+                replace: true,
+            });
+        }
+    }, [editting, navigate, location.pathname, location.search]);
     useEffect(() => {
         setIsLoading(true);
         if (user.id) {
@@ -45,29 +57,34 @@ export function SponsorPage() {
         }
     }, [user.id, token]);
 
-    // const [firstName, setFirstName] = useState({
-    //     name: "",
-    //     error: "",
-    //     state: true,
-    // });
-    // const [lastName, setLastName] = useState({
-    //     name: "",
-    //     error: "",
-    //     state: true,
-    // });
+    const [firstName, setFirstName] = useState({
+        name: "",
+        error: "",
+        state: true,
+    });
+    const [lastName, setLastName] = useState({
+        name: "",
+        error: "",
+        state: true,
+    });
+    const [numberKudos, setNumberKudos] = useState({
+        kudos: 0,
+        error: "",
+        state: true,
+    });
 
-    // useEffect(() => {
-    //     setUserInfo(profile);
-    // }, [profile]);
+    useEffect(() => {
+        setUserInfo(profile);
+    }, [profile]);
 
-    // useEffect(() => {
-    //     if (Object.keys(profile).length !== 0) {
-    //         setFirstName({ name: profile?.first_name, error: "", state: true });
-    //         setLastName({ name: profile?.last_name, error: "", state: true });
-
-    //         setSaveError("");
-    //     }
-    // }, [profile, editting]);
+    useEffect(() => {
+        if (Object.keys(profile).length !== 0) {
+            setFirstName({ name: profile?.first_name, error: "", state: true });
+            setLastName({ name: profile?.last_name, error: "", state: true });
+            setNumberKudos({ kudos: kudos?.amount, error: "", state: true });
+            setSaveError("");
+        }
+    }, [profile, editting]);
 
     if (isLoading || !profile) {
         return (
@@ -77,32 +94,113 @@ export function SponsorPage() {
         );
     }
 
-    // const propsTalentData = {
-    //     profile,
-    //     editting,
-    //     firstName,
-    //     setFirstName,
-    //     lastName,
-    //     setLastName,
-    // };
+    function save() {
+        talentDataRef.current?.validate();
+        let isValid = talentDataRef.current?.validate();
+        if (isValid) {
+            const obj = {
+                first_name: firstName.name,
+                last_name: lastName.name,
+                count_of_kudos: numberKudos.kudos,
+            };
 
-    // const propsAbout = {
-    //     profile,
-    //     editting,
-    //     setEditting,
-    //     setModalIsOpen,
-    //     setCancelModalIsOpen,
-    //     saveError,
-    // };
+            try {
+                TalentsService.editSponsor(user.id, obj, token)
+                    .then(() => {
+                        setSaveError("");
+                        setProfile((prev) => ({
+                            ...prev,
+                            first_name: firstName.name,
+                            last_name: lastName.name,
+                            amount: numberKudos.kudos,
+                        }));
+                        setKudos(kudos + parseInt(numberKudos.kudos));
+                        setEditting(false);
+                    })
+                    .catch((error) => {
+                        if (error.response.status === 400) {
+                            setSaveError("Data entered incorrectly");
+                        }
+                    });
+            } catch (error) {
+                console.error(error);
+            }
+        }
+    }
+
+    const deleteSponsor = () => {
+        try {
+            TalentsService.deleteSponsor(user.id, token)
+                .then(() => {
+                    removeCookie("token");
+                    removeCookie("user");
+                    navigate("/", { replace: true });
+                })
+                .catch((error) => {
+                    console.error(error);
+                });
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const propsTalentData = {
+        user,
+        editting,
+        firstName,
+        setFirstName,
+        lastName,
+        setLastName,
+        numberKudos,
+        setNumberKudos,
+        state,
+        setState,
+    };
+
+    const propsAbout = {
+        profile,
+        editting,
+        setEditting,
+        save,
+        setModalIsOpen,
+        setCancelModalIsOpen,
+        saveError,
+    };
 
     return (
         <>
+            <ModalWindow
+                title={"Deleting"}
+                notice={
+                    "Are you sure you want to delete your account permanently?"
+                }
+                agreeButtonText={"Yes, I want"}
+                disagreeButtonText={"No, I don't"}
+                isOpen={modalIsOpen}
+                setIsOpen={setModalIsOpen}
+                func={deleteSponsor}
+            />
+            <ModalWindow
+                title={"Canceling"}
+                notice={"Are you sure you want to undo all changes?"}
+                agreeButtonText={"Yes, I want"}
+                disagreeButtonText={"No, I don't"}
+                isOpen={cancelModalIsOpen}
+                setIsOpen={setCancelModalIsOpen}
+                func={() => {
+                    setEditting(false);
+                }}
+            />
             <div className={s.btns}>
                 <Button className={s.btn} onClick={() => navigate(-1)}>
                     Back
                 </Button>
             </div>
-            <SponsorData />
+            <div className={s.container}>
+                <SponsorData {...propsTalentData} ref={talentDataRef} />
+
+                <SponsorAbout {...propsAbout} ref={aboutRef} />
+            </div>
         </>
     );
 }

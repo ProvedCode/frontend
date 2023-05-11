@@ -20,7 +20,6 @@ import userAvatar from "../../../../shared/images/user.png";
 export const SponsorData = forwardRef((props, ref) => {
     const { user, token, kudos, setKudos, userInfo } = useContext(UserContext);
     const {
-        profile,
         editting,
         firstName,
         setFirstName,

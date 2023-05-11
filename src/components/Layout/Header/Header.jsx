@@ -41,10 +41,9 @@ export function Header() {
                 })
                 .catch((err) => console.log(err));
         }
-    }, [user.id, kudos.amount]);
+    }, [user.id]);
     const menuItems = useMemo(
         () => [
-            // { title: "Home", link: "/" },
             { title: "Talents", link: "/talents" },
             { title: "Proofs", link: "/proofs" },
         ],

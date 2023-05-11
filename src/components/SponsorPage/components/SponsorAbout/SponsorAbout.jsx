@@ -1,28 +1,18 @@
-import React, {
-    useCallback,
-    forwardRef,
-    useImperativeHandle,
-    useEffect,
-    useState,
-    useContext,
-} from "react";
-import { UserContext } from "../../../../context/UserContext";
+import React, { forwardRef } from "react";
+
 import { Button, Textarea } from "../../../../shared/components";
-import { TalentsService } from "../../../../services/api-services";
+
 import edit from "./images/edit.svg";
 import s from "./SponsorAbout.module.scss";
 
-export const SponsorAbout = forwardRef((props, ref) => {
-    const {
-        profile,
-        editting,
-        setEditting,
-        save,
-        setModalIsOpen,
-        setCancelModalIsOpen,
-        saveError,
-    } = props;
-
+export function SponsorAbout({
+    editting,
+    setEditting,
+    save,
+    setModalIsOpen,
+    setCancelModalIsOpen,
+    saveError,
+}) {
     return (
         <div className={s.about}>
             <button
@@ -60,4 +50,4 @@ export const SponsorAbout = forwardRef((props, ref) => {
             {saveError && <div className={s.save_error}>{saveError}</div>}
         </div>
     );
-});
+}

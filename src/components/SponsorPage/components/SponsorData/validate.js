@@ -38,9 +38,8 @@ export function validateLastName(lastName) {
 
 export function validateKudos(kudos) {
     const KUDOS_REGEXP = /^[1-9]\d*$/;
-
-    if (!kudos) {
-        return { error: "", state: true };
+    if (kudos === "") {
+        return { error: "*empty field", state: false };
     } else if (parseInt(kudos) > 2000000000) {
         return { error: "*the value is too long", state: false };
     } else if (!KUDOS_REGEXP.test(kudos)) {

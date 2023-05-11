@@ -25,24 +25,13 @@ export function SponsorPage() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
-    const [state, setState] = useState(0);
+
     useEffect(() => {
         const path = `${location.pathname}${location.search}`;
         const hash = editting ? "#edit" : "";
         navigate(`${path}${hash}`, { replace: true });
     }, [editting, navigate, location.pathname, location.search]);
 
-    useEffect(() => {
-        if (editting) {
-            navigate(`${location.pathname}${location.search}#edit`, {
-                replace: true,
-            });
-        } else if (!editting) {
-            navigate(`${location.pathname}${location.search}`, {
-                replace: true,
-            });
-        }
-    }, [editting, navigate, location.pathname, location.search]);
     useEffect(() => {
         setIsLoading(true);
         if (user.id) {
@@ -114,7 +103,8 @@ export function SponsorPage() {
                             last_name: lastName.name,
                             amount: numberKudos.kudos,
                         }));
-                        setKudos(kudos + parseInt(numberKudos.kudos));
+                        setKudos((prev) => prev + parseInt(numberKudos.kudos));
+
                         setEditting(false);
                     })
                     .catch((error) => {
@@ -145,7 +135,6 @@ export function SponsorPage() {
     };
 
     const propsTalentData = {
-        user,
         editting,
         firstName,
         setFirstName,
@@ -153,18 +142,14 @@ export function SponsorPage() {
         setLastName,
         numberKudos,
         setNumberKudos,
-        state,
-        setState,
     };
 
     const propsAbout = {
-        profile,
         editting,
         setEditting,
         save,
         setModalIsOpen,
         setCancelModalIsOpen,
-        saveError,
     };
 
     return (

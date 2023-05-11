@@ -171,8 +171,6 @@ export const TalentsService = {
             const response = await axiosInstance.post(
                 `v3/proofs/${id}/kudos`,
                 kudoses,
-                {},
-
                 {
                     headers,
                 }
@@ -180,7 +178,7 @@ export const TalentsService = {
             return response.data.amount;
         } catch (error) {
             console.log(error);
-            return error;
+            throw error;
         }
     },
 

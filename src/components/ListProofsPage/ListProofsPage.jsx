@@ -3,13 +3,13 @@ import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock";
-import { Button } from "../../shared/components";
+import { Button, ModalWindow } from "../../shared/components";
 import { Pagination } from "../TalentsListPage/components/Pagination";
 import s from "./ListProofsPage.module.scss";
 
 export function ListProofsPage() {
     const [proofs, setProofs] = useState({});
-    // const { user } = useContext(UserContext);
+    const { token, kudos, setKudos } = useContext(UserContext);
     // const { token } = useContext(UserContext);
     // const { talentsProofs, setTalentsProofs } = useContext(UserContext);
     const [pages, setPages] = useState({ page: 0, size: 5, orderBy: "desc" });
@@ -17,6 +17,10 @@ export function ListProofsPage() {
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
+
+    const [modalIsOpen, setModalIsOpen] = useState(false);
+    const [proofId, setProofId] = useState(null);
+    const [kudoses, setKudoses] = useState(1);
     // useEffect(() => {
     //     if (user.id && user.role !== "SPONSOR") {
     //         TalentsService.getProofs(user.id, token)
@@ -55,21 +59,15 @@ export function ListProofsPage() {
 
     useEffect(() => {
         if (0 < page < countOfPages) {
-            TalentsService.getAllProofs(
-                searchParams.get("page") || "",
-                pages.size,
-                pages.orderBy
-            ).then((res) => {
+            TalentsService.getAllProofs(searchParams.get("page") || "", pages.size, pages.orderBy).then((res) => {
                 setProofs(res.content);
                 setCountOfPages(res.total_pages);
             });
         } else {
-            TalentsService.getAllProofs(0, pages.size, pages.orderBy).then(
-                (res) => {
-                    setProofs(res.content);
-                    setCountOfPages(res.total_pages);
-                }
-            );
+            TalentsService.getAllProofs(0, pages.size, pages.orderBy).then((res) => {
+                setProofs(res.content);
+                setCountOfPages(res.total_pages);
+            });
         }
     }, [pages, page, size]);
 
@@ -81,39 +79,85 @@ export function ListProofsPage() {
         setPages({ ...pages, orderBy: "desc" });
     };
 
-    return (
-        <div>
-            <div className={s.buttons}>
-                <Button className={s.button} onClick={filterByDateDesc}>
-                    Sort by date: ascending
-                </Button>
-                <Button className={s.button} onClick={filterByDateAsc}>
-                    Sort by date: descending
-                </Button>
-            </div>
-
-            {proofs.length > 0 ? (
-                proofs.map((el) => {
-                    return (
-                        <ProofBlock
-                            key={el.id}
-                            id={el.id}
-                            link={el.link}
-                            text={el.text}
-                            created={el.created}
-                            status={el.status}
-                        />
-                    );
+    function likeProof(kudoses) {
+        if (token) {
+            const obj = { amount: kudoses };
+            TalentsService.putKudos(proofId, obj, token)
+                .then(() => {
+                    setKudos((prev) => prev - parseInt(obj.amount));
+                    setKudoses(1);
                 })
-            ) : (
-                <div></div>
-            )}
-            <Pagination
-                countOfPages={countOfPages}
-                page={page}
-                size={pages.size}
-                path={"proofs"}
+                .catch((err) => {
+                    if (err.response.status === 403) {
+                        alert("You have been already kudosed this proof");
+                    }
+                });
+        } else {
+            window.location.href = `proofs?page=${page}&size=${size}#auth`;
+        }
+    }
+
+    return (
+        <>
+            <ModalWindow
+                title={"Kudos Proof"}
+                notice={
+                    <>
+                    <span className={s.modal_text}>
+                    <input
+                        type="range"
+                        onChange={(event) => {
+                            setKudoses(event.target.value);
+                        }}
+                        min={1}
+                        max={kudos}
+                        step={parseInt(Math.ceil(kudoses / 100))}
+                        value={kudoses}
+                        className={s.slider}
+                    ></input>
+                    <span>{kudoses}</span>
+                    </span>
+                    
+                    </>
+                }
+                agreeButtonText={"Kudos"}
+                disagreeButtonText={"Close"}
+                isOpen={modalIsOpen}
+                setIsOpen={setModalIsOpen}
+                func={() => {
+                    likeProof(kudoses);
+                }}
             />
-        </div>
+            <div>
+                <div className={s.buttons}>
+                    <Button className={s.button} onClick={filterByDateDesc}>
+                        Sort by date: ascending
+                    </Button>
+                    <Button className={s.button} onClick={filterByDateAsc}>
+                        Sort by date: descending
+                    </Button>
+                </div>
+
+                {proofs.length > 0 ? (
+                    proofs.map((el) => {
+                        return (
+                            <ProofBlock
+                                key={el.id}
+                                id={el.id}
+                                link={el.link}
+                                text={el.text}
+                                created={el.created}
+                                status={el.status}
+                                setProofId={setProofId}
+                                setModalIsOpen={setModalIsOpen}
+                            />
+                        );
+                    })
+                ) : (
+                    <div></div>
+                )}
+                <Pagination countOfPages={countOfPages} page={page} size={pages.size} path={"proofs"} />
+            </div>
+        </>
     );
 }

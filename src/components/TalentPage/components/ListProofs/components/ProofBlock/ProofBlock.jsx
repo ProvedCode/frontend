@@ -1,4 +1,5 @@
 import s from "./ProofBlock.module.scss";
+import { Kudos } from "./components/Kudos";
 
 export function ProofBlock({ id, link, text, created, status }) {
     return (
@@ -22,6 +23,7 @@ export function ProofBlock({ id, link, text, created, status }) {
                             </div>
                         </div>
                         <div className={s.date}>
+                            <Kudos id={id}/>
                             <b className={s.created}>
                                 Created: {created.split(" ")[0]}
                             </b>

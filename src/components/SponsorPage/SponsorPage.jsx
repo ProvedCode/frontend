@@ -70,7 +70,7 @@ export function SponsorPage() {
         if (Object.keys(profile).length !== 0) {
             setFirstName({ name: profile?.first_name, error: "", state: true });
             setLastName({ name: profile?.last_name, error: "", state: true });
-            setNumberKudos({ kudos: kudos?.amount, error: "", state: true });
+            setNumberKudos({ error: "", state: true });
             setSaveError("");
         }
     }, [profile, editting]);
@@ -101,7 +101,6 @@ export function SponsorPage() {
                             ...prev,
                             first_name: firstName.name,
                             last_name: lastName.name,
-                            amount: numberKudos.kudos,
                         }));
                         setKudos((prev) => prev + parseInt(numberKudos.kudos));
 

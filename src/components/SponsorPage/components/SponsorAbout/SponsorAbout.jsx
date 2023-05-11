@@ -1,7 +1,4 @@
-import React, { forwardRef } from "react";
-
-import { Button, Textarea } from "../../../../shared/components";
-
+import { Button } from "../../../../shared/components";
 import edit from "./images/edit.svg";
 import s from "./SponsorAbout.module.scss";
 

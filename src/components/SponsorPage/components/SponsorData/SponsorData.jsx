@@ -18,7 +18,7 @@ import s from "./SponsorData.module.scss";
 import userAvatar from "../../../../shared/images/user.png";
 
 export const SponsorData = forwardRef((props, ref) => {
-    const {kudos, userInfo } = useContext(UserContext);
+    const { kudos, userInfo } = useContext(UserContext);
     const {
         editting,
         firstName,
@@ -68,10 +68,10 @@ export const SponsorData = forwardRef((props, ref) => {
                 <div className={s.kudos}>
                     {editting ? (
                         <>
-                            <div className={s.input_block}>
+                            <div className={s.add_kudos}>
                                 <Input
                                     type="text"
-                                    placeholder="amount"
+                                    placeholder="add kudos"
                                     autoComplete="off"
                                     maxLength="10"
                                     className={`${

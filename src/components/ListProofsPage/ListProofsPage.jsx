@@ -8,28 +8,17 @@ import { Pagination } from "../TalentsListPage/components/Pagination";
 import s from "./ListProofsPage.module.scss";
 
 export function ListProofsPage() {
-    const [proofs, setProofs] = useState({});
-    const { token, kudos, setKudos } = useContext(UserContext);
-    // const { token } = useContext(UserContext);
-    // const { talentsProofs, setTalentsProofs } = useContext(UserContext);
+    const { token, kudos, setKudos, proofs, setProofs } =
+        useContext(UserContext);
     const [pages, setPages] = useState({ page: 0, size: 5, orderBy: "desc" });
     const [countOfPages, setCountOfPages] = useState(0);
     const [searchParams, setSearchParams] = useSearchParams();
     const [page, setPage] = useState(0);
     const [size, setSize] = useState(5);
-
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [proofId, setProofId] = useState(null);
     const [kudoses, setKudoses] = useState(1);
-    // useEffect(() => {
-    //     if (user.id && user.role !== "SPONSOR") {
-    //         TalentsService.getProofs(user.id, token)
-    //             .then((proofs) => {
-    //                 setTalentsProofs(proofs.content);
-    //             })
-    //             .catch((err) => console.log(err));
-    //     }
-    // }, [token, talentsProofs?.length, setTalentsProofs]);
+
     useEffect(() => {
         if (searchParams.has("page") && searchParams.has("size")) {
             if (
@@ -59,17 +48,27 @@ export function ListProofsPage() {
 
     useEffect(() => {
         if (0 < page < countOfPages) {
-            TalentsService.getAllProofs(searchParams.get("page") || "", pages.size, pages.orderBy).then((res) => {
+            TalentsService.getAllProofs(
+                searchParams.get("page") || "",
+                pages.size,
+                pages.orderBy
+            ).then((res) => {
                 setProofs(res.content);
                 setCountOfPages(res.total_pages);
             });
         } else {
-            TalentsService.getAllProofs(0, pages.size, pages.orderBy).then((res) => {
-                setProofs(res.content);
-                setCountOfPages(res.total_pages);
-            });
+            TalentsService.getAllProofs(0, pages.size, pages.orderBy).then(
+                (res) => {
+                    setProofs(res.content);
+                    setCountOfPages(res.total_pages);
+                }
+            );
         }
     }, [pages, page, size]);
+
+    useEffect(() => {
+        setKudoses(1);
+    }, [modalIsOpen]);
 
     const filterByDateAsc = () => {
         setPages({ ...pages, orderBy: "asc" });
@@ -103,21 +102,20 @@ export function ListProofsPage() {
                 title={"Kudos Proof"}
                 notice={
                     <>
-                    <span className={s.modal_text}>
-                    <input
-                        type="range"
-                        onChange={(event) => {
-                            setKudoses(event.target.value);
-                        }}
-                        min={1}
-                        max={kudos}
-                        step={parseInt(Math.ceil(kudoses / 100))}
-                        value={kudoses}
-                        className={s.slider}
-                    ></input>
-                    <span>{kudoses}</span>
-                    </span>
-                    
+                        <span className={s.modal_text}>
+                            <input
+                                type="range"
+                                onChange={(event) => {
+                                    setKudoses(event.target.value);
+                                }}
+                                min={1}
+                                max={kudos}
+                                step={parseInt(Math.ceil(kudoses / 100))}
+                                value={kudoses}
+                                className={s.slider}
+                            ></input>
+                            <span>{kudoses}</span>
+                        </span>
                     </>
                 }
                 agreeButtonText={"Kudos"}
@@ -156,7 +154,12 @@ export function ListProofsPage() {
                 ) : (
                     <div></div>
                 )}
-                <Pagination countOfPages={countOfPages} page={page} size={pages.size} path={"proofs"} />
+                <Pagination
+                    countOfPages={countOfPages}
+                    page={page}
+                    size={pages.size}
+                    path={"proofs"}
+                />
             </div>
         </>
     );

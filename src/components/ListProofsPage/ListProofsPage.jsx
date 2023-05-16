@@ -3,7 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import { useSearchParams } from "react-router-dom";
 import { UserContext } from "../../context/UserContext";
 import { ProofBlock } from "../TalentPage/components/ListProofs/components/ProofBlock";
+
 import { Input, Button, ModalWindow } from "../../shared/components";
+
 import { Pagination } from "../TalentsListPage/components/Pagination";
 import s from "./ListProofsPage.module.scss";
 
@@ -95,10 +97,12 @@ export function ListProofsPage() {
             window.location.href = `proofs?page=${page}&size=${size}#auth`;
         }
     }
+
     const handleInputChange = (event) => {
         const value = parseInt(event.target.value);
         setKudoses(value || 0);
     };
+
 
     return (
         <>
@@ -114,6 +118,7 @@ export function ListProofsPage() {
                                 }}
                                 min={1}
                                 max={kudos}
+
                                 step={1}
                                 value={kudoses}
                                 className={s.slider}
@@ -125,6 +130,7 @@ export function ListProofsPage() {
                                     value={kudoses}
                                 />
                             </span>
+
                         </span>
                     </>
                 }

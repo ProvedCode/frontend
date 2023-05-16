@@ -120,10 +120,8 @@ export function ListProofsPage() {
                             ></input>
                             <span className={s.kudos_parent}>
                                 <input
-                                    type="number"
                                     className={s.kudos_value}
                                     onChange={handleInputChange}
-                                    max={kudos}
                                     value={kudoses}
                                 />
                             </span>

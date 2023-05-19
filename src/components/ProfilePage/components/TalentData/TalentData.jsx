@@ -179,7 +179,7 @@ export const TalentData = forwardRef((props, ref) => {
                     )}
                 </div>
 
-                <div
+                {/* <div
                     className={`${s.talents} ${editting ? s.talents_edit : ""}`}
                 >
                     {editting ? (
@@ -235,7 +235,7 @@ export const TalentData = forwardRef((props, ref) => {
                             </div>
                         ))
                     )}
-                </div>
+                </div> */}
                 <div className={s.links}>
                     {editting ? (
                         <>

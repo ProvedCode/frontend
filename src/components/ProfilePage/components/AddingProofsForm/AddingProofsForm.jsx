@@ -18,19 +18,6 @@ export function AddingProofsForm({
     setCancelModalIsOpen = null,
 }) {
     const [skills, setSkills] = useState([]);
-
-    useEffect(() => {
-        if (proof) {
-            TalentsService.getProfileSkills(user.id, proof.id, token)
-                .then((response) => {
-                    setSkills(response.skills);
-                })
-
-                .catch((error) => {
-                    console.log(error);
-                });
-        }
-    }, [proof]);
     const [activeProofs, setActiveProofs] = useState(edit !== null);
     const [link, setLink] = useState({
         link: edit === null ? "" : proof.link,
@@ -42,19 +29,14 @@ export function AddingProofsForm({
         error: "",
         state: true,
     });
-    const [mySkills, setMySkills] = useState({
-        skills: edit === null ? "" : [],
-        error: "",
-        state: true,
-    });
 
     const [addProofError, setAddProofError] = useState("");
-    const { user, talentsProofs, setTalentsProofs } = useContext(UserContext);
+    const { talentsProofs, setTalentsProofs } = useContext(UserContext);
     const [currentSkills, setCurrentSkills] = useState([]);
     const [skillId, setSkillId] = useState([]);
-    const [selectedSkills, setSelectedSkills] = useState([]);
     const [defaultSkills, setDefaultSkills] = useState([]);
-    const isMulti = true;
+
+    //const [currentSkills, setcurrentSkills] = useState([]);
 
     const validateProof = useCallback(() => {
         setLink((prev) => ({
@@ -111,11 +93,20 @@ export function AddingProofsForm({
             color: state.isFocused ? "#fff" : "#adadad",
         }),
     };
+
     useEffect(() => {
-        if (user.id) {
+        if (id) {
             TalentsService.getSkills(token)
                 .then((response) => {
-                    setCurrentSkills(response);
+                    setCurrentSkills(
+                        response.map((item) => {
+                            return {
+                                id: item.id,
+                                value: item.skill.toLowerCase(),
+                                label: item.skill,
+                            };
+                        })
+                    );
                 })
 
                 .catch((error) => {
@@ -124,19 +115,29 @@ export function AddingProofsForm({
         }
     }, []);
 
-    const [newArray, setNewArray] = useState([]);
-
     useEffect(() => {
-        setNewArray((prev) => {
-            return currentSkills.map((item) => {
-                return {
-                    id: item.id,
-                    value: item.skill.toLowerCase(),
-                    label: item.skill,
-                };
-            });
-        });
-    }, [currentSkills]);
+        if (proof) {
+            TalentsService.getProofsSkills(id, proof.id, token)
+                .then((response) => {
+                    setSkills(response.skills);
+                })
+
+                .catch((error) => {
+                    console.log(error);
+                });
+        }
+    }, [proof]);
+    // useEffect(() => {
+    //     setcurrentSkills(() => {
+    //         return currentSkills.map((item) => {
+    //             return {
+    //                 id: item.id,
+    //                 value: item.skill.toLowerCase(),
+    //                 label: item.skill,
+    //             };
+    //         });
+    //     });
+    // }, [currentSkills]);
 
     function handle(e) {
         e.preventDefault();
@@ -144,10 +145,10 @@ export function AddingProofsForm({
             const proof = {
                 link: link.link,
                 text: text.text,
-                skills: mySkills.skills,
+                skills: skills.skills,
             };
             TalentsService.addProof(proof, id, token)
-                .then((response) => {
+                .then(() => {
                     setTalentsProofs((prev) => [
                         ...prev,
                         {
@@ -233,12 +234,11 @@ export function AddingProofsForm({
         });
 
         if (uniqueSkillId.length > 0) {
-            TalentsService.addProfileSkills(user.id, proof.id, token, {
+            TalentsService.addProofsSkills(id, proof.id, token, {
                 skills: uniqueSkillId,
             })
                 .then((response) => {
-                    setMySkills(response);
-                    setSelectedSkills(skills);
+                    setSkills(response);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -246,22 +246,24 @@ export function AddingProofsForm({
         }
     }
 
-    function writeSkills(data) {
+    const writeSkills = useCallback((data) => {
         setSkillId(data.map((el) => el.id));
-    }
+    });
 
     useEffect(() => {
-        if (skills.length !== 0 && newArray.length !== 0) {
+        if (skills.length !== 0 && currentSkills.length !== 0) {
             const map = skills.map((item) =>
-                newArray.find((lowerItem) => item.skill === lowerItem.label)
+                currentSkills.find(
+                    (lowerItem) => item.skill === lowerItem.label
+                )
             );
             setDefaultSkills(map);
         }
-    }, [skills, newArray]);
+    }, [skills, currentSkills]);
 
     const handleClear = () => {
         skills.forEach((el) => {
-            TalentsService.deleteProfileSkills(user.id, proof.id, token, el.id)
+            TalentsService.deleteProofsSkills(id, proof.id, token, el.id)
                 .then((response) => {
                     setSkills([]);
                     setDefaultSkills([]);
@@ -294,15 +296,15 @@ export function AddingProofsForm({
             {activeProofs && (
                 <form action="" className={s.add_proff_form}>
                     <div className={s.description}>
-                        {newArray.length !== 0 && edit ? (
+                        {currentSkills.length !== 0 && edit ? (
                             <Select
                                 placeholder={"Select your skills..."}
                                 onclick={() => console.log("Selected")}
                                 key={defaultSkills.length}
                                 onChange={writeSkills}
-                                options={newArray}
+                                options={currentSkills}
                                 defaultValue={defaultSkills}
-                                isMulti={isMulti}
+                                isMulti={true}
                                 styles={selectStyles}
                                 components={{
                                     MultiValueRemove: (props) => (

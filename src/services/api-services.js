@@ -330,7 +330,7 @@ export const TalentsService = {
             return error;
         }
     },
-    async getProfileSkills(id, idProof, token) {
+    async getProofsSkills(id, idProof, token) {
         try {
             const headers = {
                 Authorization: `Bearer ${token}`,
@@ -349,7 +349,7 @@ export const TalentsService = {
             return error;
         }
     },
-    async addProfileSkills(id, idProof, token, skills) {
+    async addProofsSkills(id, idProof, token, skills) {
         try {
             const headers = {
                 Authorization: `Bearer ${token}`,
@@ -369,7 +369,7 @@ export const TalentsService = {
         }
     },
 
-    async deleteProfileSkills(id, idProof, token, skillId) {
+    async deleteProofsSkills(id, idProof, token, skillId) {
         try {
             const headers = {
                 Authorization: `Bearer ${token}`,

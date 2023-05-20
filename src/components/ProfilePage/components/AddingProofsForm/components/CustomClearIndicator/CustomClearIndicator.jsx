@@ -8,7 +8,6 @@ export function CustomClearIndicator(props) {
             {skills.length > 0 ? (
                 <components.ClearIndicator {...props}>
                     <span
-                        className="clear-indicator"
                         onClick={clearValue}
                         onMouseDown={(e) => e.stopPropagation()}
                     >

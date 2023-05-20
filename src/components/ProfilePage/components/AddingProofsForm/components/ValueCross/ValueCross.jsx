@@ -7,7 +7,7 @@ export function ValueCross(props) {
     const { proof, skills } = props;
     const { user, token } = useContext(UserContext);
     const handleClearOne = () => {
-        TalentsService.deleteProfileSkills(
+        TalentsService.deleteProofsSkills(
             user.id,
             proof.id,
             token,
@@ -30,7 +30,14 @@ export function ValueCross(props) {
                     </span>
                 </components.MultiValueRemove>
             ) : (
-                ""
+                <components.MultiValueRemove {...props}>
+                    <span
+                        style={{ cursor: "pointer" }}
+                        onMouseDown={(e) => e.stopPropagation()}
+                    >
+                        x
+                    </span>
+                </components.MultiValueRemove>
             )}
         </>
     );

@@ -46,7 +46,7 @@ export function ProfileProofBlock({
             });
     }
     useEffect(() => {
-        TalentsService.getProfileSkills(userID, id, token)
+        TalentsService.getProofsSkills(userID, id, token)
             .then((response) => {
                 setSkills(response.skills);
             })

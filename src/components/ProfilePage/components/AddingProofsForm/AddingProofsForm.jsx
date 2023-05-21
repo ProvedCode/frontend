@@ -31,13 +31,11 @@ export function AddingProofsForm({
     });
 
     const [addProofError, setAddProofError] = useState("");
-    const { talentsProofs, setTalentsProofs } = useContext(UserContext);
+    const { user, talentsProofs, setTalentsProofs } = useContext(UserContext);
     const [currentSkills, setCurrentSkills] = useState([]);
     const [skillId, setSkillId] = useState([]);
     const [defaultSkills, setDefaultSkills] = useState([]);
-
-    //const [currentSkills, setcurrentSkills] = useState([]);
-
+    const [deletedSkills, setDeletedSkills] = useState([]);
     const validateProof = useCallback(() => {
         setLink((prev) => ({
             ...prev,
@@ -117,7 +115,7 @@ export function AddingProofsForm({
 
     useEffect(() => {
         if (proof) {
-            TalentsService.getProofsSkills(id, proof.id, token)
+            TalentsService.getProofsSkills(proof.id, token)
                 .then((response) => {
                     setSkills(response.skills);
                 })
@@ -127,17 +125,6 @@ export function AddingProofsForm({
                 });
         }
     }, [proof]);
-    // useEffect(() => {
-    //     setcurrentSkills(() => {
-    //         return currentSkills.map((item) => {
-    //             return {
-    //                 id: item.id,
-    //                 value: item.skill.toLowerCase(),
-    //                 label: item.skill,
-    //             };
-    //         });
-    //     });
-    // }, [currentSkills]);
 
     function handle(e) {
         e.preventDefault();
@@ -180,6 +167,12 @@ export function AddingProofsForm({
         }
     }
 
+    function handleClear() {
+        setDeletedSkills(skills);
+        setSkills([]);
+        setDefaultSkills([]);
+    }
+
     function save(e) {
         e.preventDefault();
 
@@ -190,7 +183,21 @@ export function AddingProofsForm({
                 status: proof.status,
                 created: proof.created,
             };
-
+            deletedSkills.forEach((el) => {
+                TalentsService.deleteProofsSkills(
+                    user.id,
+                    proof.id,
+                    token,
+                    el.id
+                )
+                    .then((response) => {
+                        setSkills([]);
+                        setDefaultSkills([]);
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                    });
+            });
             TalentsService.editProof(id, proof.id, newProof, token)
                 .then(() => {
                     setTalentsProofs(
@@ -234,7 +241,7 @@ export function AddingProofsForm({
         });
 
         if (uniqueSkillId.length > 0) {
-            TalentsService.addProofsSkills(id, proof.id, token, {
+            TalentsService.addProofsSkills(user.id, proof.id, token, {
                 skills: uniqueSkillId,
             })
                 .then((response) => {
@@ -260,19 +267,6 @@ export function AddingProofsForm({
             setDefaultSkills(map);
         }
     }, [skills, currentSkills]);
-
-    const handleClear = () => {
-        skills.forEach((el) => {
-            TalentsService.deleteProofsSkills(id, proof.id, token, el.id)
-                .then((response) => {
-                    setSkills([]);
-                    setDefaultSkills([]);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
-        });
-    };
 
     return (
         <>
@@ -312,6 +306,9 @@ export function AddingProofsForm({
                                             {...props}
                                             proof={proof}
                                             skills={skills}
+                                            setSkills={setSkills}
+                                            deletedSkills={deletedSkills}
+                                            setDeletedSkills={setDeletedSkills}
                                         />
                                     ),
                                     ClearIndicator: (props) => (
@@ -381,6 +378,7 @@ export function AddingProofsForm({
                                         onClick={(e) => {
                                             e.preventDefault();
                                             setCancelModalIsOpen(true);
+                                            setSkills(deletedSkills);
                                         }}
                                     >
                                         Cancel

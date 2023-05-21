@@ -4,19 +4,15 @@ import { UserContext } from "../../../../../../context/UserContext";
 import Select, { components } from "react-select";
 
 export function ValueCross(props) {
-    const { proof, skills } = props;
-    const { user, token } = useContext(UserContext);
-    const handleClearOne = () => {
-        TalentsService.deleteProofsSkills(
-            user.id,
-            proof.id,
-            token,
-            arguments[0].data.id
-        ).catch((error) => {
-            console.log(error);
-        });
-    };
+    const { proof, skills, setSkills, setDeletedSkills, deletedSkills } = props;
 
+    const handleClearOne = () => {
+        const nowSkill = skills.find(
+            (skill) => skill.id === arguments[0].data.id
+        );
+        setDeletedSkills([nowSkill, ...deletedSkills]);
+        setSkills(skills.filter((skill) => skill !== nowSkill));
+    };
     return (
         <>
             {skills.length > 0 ? (

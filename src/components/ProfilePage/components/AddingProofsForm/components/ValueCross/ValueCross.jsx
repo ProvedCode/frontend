@@ -36,13 +36,16 @@ export function ValueCross(props) {
             }
         });
     };
+
     return (
         <>
             {skills.length > 0 ? (
                 <components.MultiValueRemove {...props}>
                     <span
                         style={{ cursor: "pointer" }}
+
                         onClick={() => handleClearOne(props.data)}
+
                         onMouseDown={(e) => e.stopPropagation()}
                     >
                         x

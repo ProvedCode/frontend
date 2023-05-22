@@ -330,13 +330,17 @@ export const TalentsService = {
             return error;
         }
     },
+
     async getProofsSkills(idProof, token) {
+
         try {
             const headers = {
                 Authorization: `Bearer ${token}`,
             };
             let response = await axiosInstance.get(
+
                 `v4/proofs/${idProof}/skills`,
+
 
                 {
                     headers,

@@ -144,7 +144,7 @@ export const TalentsService = {
             let response = {};
             if (token) {
                 response = await axiosInstance.get(
-                    `v3/proofs/${id}/kudos`,
+                    `v5/proofs/${id}/kudos`,
 
                     {
                         headers,
@@ -167,7 +167,7 @@ export const TalentsService = {
                 Authorization: `Bearer ${token}`,
             };
             const response = await axiosInstance.post(
-                `v3/proofs/${id}/kudos`,
+                `v5/proofs/${id}/kudos`,
                 kudoses,
                 {
                     headers,
@@ -279,7 +279,7 @@ export const TalentsService = {
                 Authorization: `Bearer ${token}`,
             };
             let response = await axiosInstance.get(
-                `v3/sponsors/${id}/kudos`,
+                `v5/sponsors/${id}/kudos`,
 
                 {
                     headers,
@@ -331,20 +331,10 @@ export const TalentsService = {
         }
     },
 
-    async getProofsSkills(idProof, token) {
-
+    async getProofsSkills(idProof) {
         try {
-            const headers = {
-                Authorization: `Bearer ${token}`,
-            };
             let response = await axiosInstance.get(
-
-                `v4/proofs/${idProof}/skills`,
-
-
-                {
-                    headers,
-                }
+                `v5/proofs/${idProof}/skills`
             );
 
             return response.data;
@@ -359,7 +349,7 @@ export const TalentsService = {
                 Authorization: `Bearer ${token}`,
             };
             let response = await axiosInstance.post(
-                `v4/talents/${id}/proofs/${idProof}/skills`,
+                `v5/talents/${id}/proofs/${idProof}/skills`,
                 skills,
                 {
                     headers,
@@ -379,8 +369,46 @@ export const TalentsService = {
                 Authorization: `Bearer ${token}`,
             };
             let response = await axiosInstance.delete(
-                `v4/talents/${id}/proofs/${idProof}/skills/${skillId}`,
+                `v5/talents/${id}/proofs/${idProof}/skills/${skillId}`,
 
+                {
+                    headers,
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    async addTalentImage(id, token) {
+        try {
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+            let response = await axiosInstance.post(
+                `v3/talents/${id}/image/upload`,
+
+                {
+                    headers,
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    },
+    async addTalentSkills(id, token, skills) {
+        try {
+            const headers = {
+                Authorization: `Bearer ${token}`,
+            };
+            let response = await axiosInstance.post(
+                `v4/talents/${id}/skills`,
+                skills,
                 {
                     headers,
                 }

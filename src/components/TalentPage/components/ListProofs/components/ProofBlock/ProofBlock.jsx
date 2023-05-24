@@ -13,9 +13,9 @@ export function ProofBlock({
     setModalIsOpen = null,
 }) {
     const [skills, setSkills] = useState([]);
-    const { user, token, kudos } = useContext(UserContext);
+
     useEffect(() => {
-        TalentsService.getProofsSkills(id, token)
+        TalentsService.getProofsSkills(id)
 
             .then((response) => {
                 setSkills(response.skills);
@@ -24,7 +24,7 @@ export function ProofBlock({
             .catch((error) => {
                 console.log(error);
             });
-    }, [user.id, id, token]);
+    }, [id]);
     return (
         <>
             {status === "PUBLISHED" ? (

@@ -28,7 +28,10 @@ export function ProfilePage() {
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
-
+    const [skillId, setSkillId] = useState([]);
+    const [defaultSkills, setDefaultSkills] = useState([]);
+    const [deletedSkills, setDeletedSkills] = useState([]);
+    const [skills, setSkills] = useState([]);
     useEffect(() => {
         if (editting) {
             navigate(`${location.pathname}${location.search}#edit`, {
@@ -177,7 +180,8 @@ export function ProfilePage() {
     function save() {
         talentDataRef.current?.validate();
         aboutRef.current?.validate();
-        let isValid = talentDataRef.current?.validate() && aboutRef.current?.validate();
+        let isValid =
+            talentDataRef.current?.validate() && aboutRef.current?.validate();
 
         if (isValid) {
             const obj = {
@@ -185,7 +189,9 @@ export function ProfilePage() {
                 last_name: lastName.name,
                 specialization: specialization.spec,
                 talents: allTalents,
-                links: links.map((el) => el.link).filter((el) => el.trim().length !== 0),
+                links: links
+                    .map((el) => el.link)
+                    .filter((el) => el.trim().length !== 0),
                 bio: normalizeString(bio.bio),
                 additional_info: normalizeString(additionalInfo.info),
                 contacts: normalizeContacts(contacts.contacts),
@@ -201,9 +207,13 @@ export function ProfilePage() {
                             last_name: lastName.name,
                             specialization: specialization.spec,
                             talents: allTalents,
-                            links: links.map((el) => el.link).filter((el) => el.trim().length !== 0),
+                            links: links
+                                .map((el) => el.link)
+                                .filter((el) => el.trim().length !== 0),
                             bio: normalizeString(bio.bio),
-                            additional_info: normalizeString(additionalInfo.info),
+                            additional_info: normalizeString(
+                                additionalInfo.info
+                            ),
                             contacts: normalizeContacts(contacts.contacts),
                         }));
                         setEditting(false);
@@ -217,6 +227,23 @@ export function ProfilePage() {
                 console.error(error);
             }
         }
+
+        const uniqueSkillId = skillId.filter((id) => {
+            // сделал так, чтобы в добавлении те скилы, которые уже есть в поле, игнорировались и повторно не записывались.
+
+            return !skills.some((skill) => skill.id === id);
+        });
+
+        TalentsService.addTalentSkills(user.id, token, {
+            skills: uniqueSkillId,
+        })
+            .then((response) => {
+                setSkills(response);
+                console.log(response);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
     }
 
     const deleteTalent = () => {
@@ -272,7 +299,9 @@ export function ProfilePage() {
         <>
             <ModalWindow
                 title={"Deleting"}
-                notice={"Are you sure you want to delete your account permanently?"}
+                notice={
+                    "Are you sure you want to delete your account permanently?"
+                }
                 agreeButtonText={"Yes, I want"}
                 disagreeButtonText={"No, I don't"}
                 isOpen={modalIsOpen}
@@ -287,7 +316,9 @@ export function ProfilePage() {
                 disagreeButtonText={"No, I don't"}
                 isOpen={cancelModalIsOpen}
                 setIsOpen={setCancelModalIsOpen}
-                func={()=>{setEditting(false)}}
+                func={() => {
+                    setEditting(false);
+                }}
             />
             <div className={s.btns}>
                 <Button className={s.btn} onClick={() => navigate(-1)}>

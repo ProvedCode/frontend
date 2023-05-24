@@ -36,7 +36,13 @@ export function AddingProofsForm({
     });
 
     const [addProofError, setAddProofError] = useState("");
-    const { talentsProofs, setTalentsProofs , currentSkills, setCurrentSkills} = useContext(UserContext);
+    const {
+        user,
+        talentsProofs,
+        setTalentsProofs,
+        currentSkills,
+        setCurrentSkills,
+    } = useContext(UserContext);
     const validateProof = useCallback(() => {
         setLink((prev) => ({
             ...prev,
@@ -116,7 +122,7 @@ export function AddingProofsForm({
 
     useEffect(() => {
         if (proof) {
-            TalentsService.getProofsSkills(proof.id, token)
+            TalentsService.getProofsSkills(proof.id)
                 .then((response) => {
                     setSkills(response.skills);
                 })

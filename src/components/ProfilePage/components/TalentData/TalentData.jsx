@@ -3,6 +3,8 @@ import React, {
     forwardRef,
     useImperativeHandle,
     useContext,
+    useState,
+    useEffect,
 } from "react";
 import { Input, Button } from "../../../../shared/components";
 import userAvatar from "../../../../shared/images/user.png";
@@ -21,6 +23,7 @@ import {
 } from "./validate";
 import { Links } from "./components/Links";
 import { UserContext } from "../../../../context/UserContext/UserContext";
+import { TalentsService } from "../../../../services/api-services";
 
 const selectStyles = {
     control: (styles) => ({
@@ -55,8 +58,12 @@ const selectStyles = {
 };
 
 export const TalentData = forwardRef((props, ref) => {
-    const { currentSkills, setCurrentSkills } = useContext(UserContext);
+    const { user, currentSkills, setCurrentSkills, token } =
+        useContext(UserContext);
 
+    const [image, setImage] = useState();
+    const [imageURL, setImageURL] = useState();
+    const fileReader = new FileReader();
     const {
         profile,
         editting,
@@ -128,14 +135,52 @@ export const TalentData = forwardRef((props, ref) => {
             setTalent({ talent: "", error: "", state: true });
         }
     }
+    fileReader.onloadend = () => {
+        setImageURL(fileReader.result);
+    };
+    const handleOnChange = (event) => {
+        event.preventDefault();
+        // const file = event.target.files[0];
+        // setImage(file.name);
+        // console.log(file.name);
+        // fileReader.readAsDataURL(file);
+        TalentsService.addTalentImage(user.id, token)
+            .then((response) => {
+                if (event.target.files && event.target.files.length) {
+                    const file = event.target.files[0];
+                    setImage(file);
+                    console.log(file.name);
+                    fileReader.readAsDataURL(file);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    };
 
     return (
         <div className={s.talent_data}>
-            <img
-                className={s.ava}
-                src={profile.image ? profile.image : userAvatar}
-                alt="avatar"
-            />
+            {editting ? (
+                <>
+                    <img
+                        className={s.ava}
+                        src={imageURL ? imageURL : userAvatar}
+                        alt="avatar"
+                    />
+                    <Input
+                        type="file"
+                        onChange={handleOnChange}
+                        className={s.avatar}
+                    />
+                </>
+            ) : (
+                <img
+                    className={s.ava}
+                    src={imageURL ? imageURL : userAvatar}
+                    alt="avatar"
+                />
+            )}
+
             <div>
                 <div className={s.name}>
                     {editting ? (

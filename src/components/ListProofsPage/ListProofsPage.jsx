@@ -96,8 +96,17 @@ export function ListProofsPage() {
         }
     }
     const handleInputChange = (event) => {
-        const value = parseInt(event.target.value);
-        setKudoses(value || 0);
+        const value = event.target.value.trim();
+        if (value === "") {
+            setKudoses(0);
+        } else {
+            const parsedValue = parseInt(value);
+            if (!isNaN(parsedValue) && parsedValue <= kudos) {
+                setKudoses(parsedValue);
+            } else {
+                setKudoses(kudos);
+            }
+        }
     };
 
     return (

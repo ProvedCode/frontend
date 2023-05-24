@@ -8,6 +8,7 @@ import { validateLinks, validateText } from "./validate";
 import Select, { components } from "react-select";
 import { CustomClearIndicator } from "./components/CustomClearIndicator";
 import { ValueCross } from "./components/ValueCross/ValueCross";
+
 export function AddingProofsForm({
     id,
     token,
@@ -18,7 +19,7 @@ export function AddingProofsForm({
     setCancelModalIsOpen = null,
 }) {
     const [skills, setSkills] = useState([]);
-    const [currentSkills, setCurrentSkills] = useState([]);
+    // const [currentSkills, setCurrentSkills] = useState([]);
     const [skillId, setSkillId] = useState([]);
     const [defaultSkills, setDefaultSkills] = useState([]);
     const [deletedSkills, setDeletedSkills] = useState([]);
@@ -35,7 +36,7 @@ export function AddingProofsForm({
     });
 
     const [addProofError, setAddProofError] = useState("");
-    const { talentsProofs, setTalentsProofs } = useContext(UserContext);
+    const { talentsProofs, setTalentsProofs , currentSkills, setCurrentSkills} = useContext(UserContext);
     const validateProof = useCallback(() => {
         setLink((prev) => ({
             ...prev,

@@ -9,6 +9,7 @@ import userAvatar from "../../../../shared/images/user.png";
 import plus from "./images/plus.svg";
 import linkedin from "../../../../shared/images/linkedin.svg";
 import github from "../../../../shared/images/github.svg";
+import Select, { components } from "react-select";
 
 import s from "./TalentData.module.scss";
 import {
@@ -19,8 +20,43 @@ import {
     validateTalent,
 } from "./validate";
 import { Links } from "./components/Links";
+import { UserContext } from "../../../../context/UserContext/UserContext";
+
+const selectStyles = {
+    control: (styles) => ({
+        ...styles,
+        fontWeight: 500,
+        fontSize: "22px",
+        lineHeight: "26px",
+        borderRadius: "10px",
+        color: "#909090",
+        border: "3px solid transparent",
+        background:
+            "linear-gradient(0deg, #000, #000) padding-box, linear-gradient(180deg, #ce9ffc 0%, #a582f7 50%, #7367f0 100%) border-box",
+        backgroundSize: "100% 100%, 100% 100%",
+        marginTop: "10px",
+    }),
+    input: (styles) => ({
+        ...styles,
+        color: "#fff", // Set the text color to white
+    }),
+    menu: (styles) => ({
+        ...styles,
+        background: "#111",
+        fontWeight: 500,
+        fontSize: "16px",
+    }),
+
+    option: (styles, state) => ({
+        ...styles,
+        backgroundColor: state.isFocused ? "#a582f7" : "transparent",
+        color: state.isFocused ? "#fff" : "#adadad",
+    }),
+};
 
 export const TalentData = forwardRef((props, ref) => {
+    const { currentSkills, setCurrentSkills } = useContext(UserContext);
+
     const {
         profile,
         editting,
@@ -190,6 +226,7 @@ export const TalentData = forwardRef((props, ref) => {
                                     key={el.id}
                                 />
                             ))}
+
                             <button
                                 disabled={links.length >= 7}
                                 className={s.add}
@@ -207,6 +244,12 @@ export const TalentData = forwardRef((props, ref) => {
                             >
                                 <img src={plus} alt="+" />
                             </button>
+                            <Select
+                                placeholder={"Select your skills..."}
+                                options={currentSkills}
+                                isMulti={true}
+                                styles={selectStyles}
+                            />
                         </>
                     ) : (
                         profile.links?.map((link, talent) => (

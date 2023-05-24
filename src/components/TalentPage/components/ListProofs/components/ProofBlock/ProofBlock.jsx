@@ -13,9 +13,8 @@ export function ProofBlock({
     setModalIsOpen = null,
 }) {
     const [skills, setSkills] = useState([]);
-    const { user, token } = useContext(UserContext);
+    const { user, token, kudos } = useContext(UserContext);
     useEffect(() => {
-
         TalentsService.getProofsSkills(id, token)
 
             .then((response) => {

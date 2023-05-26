@@ -22,15 +22,14 @@ export function ProfilePage() {
     const [profile, setProfile] = useState({});
     const [isLoading, setIsLoading] = useState(false);
     const [cookies, setCookie, removeCookie] = useCookies(["token", "user"]);
-
+    const [deletedSkills, setDeletedSkills] = useState([]);
     const [editting, setEditting] = useState(false);
     const { setUserInfo } = useContext(UserContext);
     const [modalIsOpen, setModalIsOpen] = useState(false);
     const [cancelModalIsOpen, setCancelModalIsOpen] = useState(false);
     const [saveError, setSaveError] = useState("");
     const [skillId, setSkillId] = useState([]);
-    const [defaultSkills, setDefaultSkills] = useState([]);
-    const [deletedSkills, setDeletedSkills] = useState([]);
+
     const [skills, setSkills] = useState([]);
     useEffect(() => {
         if (editting) {
@@ -51,6 +50,7 @@ export function ProfilePage() {
                 .then((response) => {
                     setProfile(response);
                     setIsLoading(false);
+                    setSkills(response.skills);
                 })
                 .catch((error) => {
                     console.log(error);
@@ -95,16 +95,7 @@ export function ProfilePage() {
         error: "",
         state: true,
     });
-    // const [password, setPassword] = useState({
-    //     pswd: "",
-    //     error: "",
-    //     state: true,
-    // });
-    // const [newPassword, setNewPassword] = useState({
-    //     pswd: "",
-    //     error: "",
-    //     state: true,
-    // });
+
     useEffect(() => {
         setUserInfo(profile);
     }, [profile]);
@@ -228,22 +219,19 @@ export function ProfilePage() {
             }
         }
 
-        const uniqueSkillId = skillId.filter((id) => {
-            // сделал так, чтобы в добавлении те скилы, которые уже есть в поле, игнорировались и повторно не записывались.
+        TalentsService.addTalentSkills(user.id, token, { id: skillId })
 
-            return !skills.some((skill) => skill.id === id);
-        });
-
-        TalentsService.addTalentSkills(user.id, token, {
-            skills: uniqueSkillId,
-        })
-            .then((response) => {
-                setSkills(response);
-                console.log(response);
+            .then(() => {
+                setSkills(skills);
             })
-            .catch((error) => {
-                console.log(error);
-            });
+            .catch((error) => {});
+
+        deletedSkills.forEach((el) => {
+            TalentsService.deleteTalentSkills(user.id, token, el.id).catch(
+                (error) => {}
+            );
+        });
+        window.location.reload();
     }
 
     const deleteTalent = () => {
@@ -326,8 +314,22 @@ export function ProfilePage() {
                 </Button>
             </div>
             <div className={s.container}>
-                <TalentData {...propsTalentData} ref={talentDataRef} />
-                <About {...propsAbout} ref={aboutRef} />
+                <TalentData
+                    {...propsTalentData}
+                    ref={talentDataRef}
+                    onChange={setSkillId}
+                    skills={skills}
+                    setSkills={setSkills}
+                    setDeletedSkills={setDeletedSkills}
+                    skillId={skillId}
+                    setSkillId={setSkillId}
+                />
+                <About
+                    {...propsAbout}
+                    ref={aboutRef}
+                    skills={skills}
+                    setSkills={setSkills}
+                />
             </div>
             <div className={s.proofs_side}>
                 <AddingProofsForm id={user.id} token={token} />

@@ -12,7 +12,8 @@ import plus from "./images/plus.svg";
 import linkedin from "../../../../shared/images/linkedin.svg";
 import github from "../../../../shared/images/github.svg";
 import Select, { components } from "react-select";
-
+import { ClearTalentSkills } from "./components/ClearTalentSkills/ClearTalentSkills";
+import { ClearOneSkill } from "./components/ClearOneSkill/ClearOneSkill";
 import s from "./TalentData.module.scss";
 import {
     validateFirstName,
@@ -58,12 +59,13 @@ const selectStyles = {
 };
 
 export const TalentData = forwardRef((props, ref) => {
-    const { user, currentSkills, setCurrentSkills, token } =
-        useContext(UserContext);
-
+    const { user, token } = useContext(UserContext);
+    const [defaultSkills, setDefaultSkills] = useState([]);
+    const [skills, setFormSkills] = useState(props.skills || []);
     const [image, setImage] = useState();
     const [imageURL, setImageURL] = useState();
     const fileReader = new FileReader();
+    const [currentSkills, setCurrentSkills] = useState([]);
     const {
         profile,
         editting,
@@ -79,7 +81,29 @@ export const TalentData = forwardRef((props, ref) => {
         setAllTalents,
         links,
         setLinks,
+        onChange,
+        setSkills,
+        deletedSkills,
+        setDeletedSkills,
+        skillId,
+        setSkillId,
     } = props;
+    useEffect(() => {
+        if (user.id) {
+            TalentsService.getAllSkills(user.id, token).then((response) => {
+                const uniqueSkills = Array.from(new Set(response));
+                setCurrentSkills(
+                    uniqueSkills.map((item) => {
+                        return {
+                            id: item.id,
+                            value: item.skill.toLowerCase(),
+                            label: item.skill,
+                        };
+                    })
+                );
+            });
+        }
+    }, [user.id, token]);
 
     const valideTalentData = useCallback(() => {
         setFirstName((prev) => ({
@@ -148,7 +172,7 @@ export const TalentData = forwardRef((props, ref) => {
             .then((response) => {
                 if (event.target.files && event.target.files.length) {
                     const file = event.target.files[0];
-                    setImage(file);
+                    setImage(file.name);
                     console.log(file.name);
                     fileReader.readAsDataURL(file);
                 }
@@ -157,7 +181,43 @@ export const TalentData = forwardRef((props, ref) => {
                 console.log(err);
             });
     };
+    const writeSkills = useCallback((data) => {
+        if (
+            !props.skills.find((el) => {
+                return el?.id === data.at(-1)?.id;
+            })
+        ) {
+            onChange((prev) => [...prev, data.at(-1)?.id]);
+        }
 
+        setSkills(data);
+    });
+    useEffect(() => {
+        let map = [];
+        if (skills.length !== 0 && currentSkills.length !== 0) {
+            map = props.skills.map((item) =>
+                currentSkills.find(
+                    (lowerItem) => item.skill === lowerItem.label
+                )
+            );
+        }
+        if (!props.skills[0]?.value) {
+            map = props.skills.map((el) => ({
+                id: el.id,
+                value: el.skill.toLowerCase(),
+                label: el.skill,
+            }));
+        }
+        setDefaultSkills(map);
+    }, [skills, currentSkills]);
+
+    function handleClear() {
+        setDeletedSkills(skills);
+        setSkills([]);
+        setDefaultSkills([]);
+        setSkillId([]);
+    }
+    console.log(defaultSkills);
     return (
         <div className={s.talent_data}>
             {editting ? (
@@ -292,12 +352,35 @@ export const TalentData = forwardRef((props, ref) => {
                             <Select
                                 placeholder={"Select your skills..."}
                                 options={currentSkills}
+                                key={defaultSkills.length}
                                 isMulti={true}
                                 styles={selectStyles}
+                                defaultValue={defaultSkills}
+                                onChange={writeSkills}
+                                components={{
+                                    MultiValueRemove: (props) => (
+                                        <ClearOneSkill
+                                            {...props}
+                                            skills={skills}
+                                            skillId={skillId}
+                                            setSkillId={setSkillId}
+                                            setSkills={setSkills}
+                                            deletedSkills={deletedSkills}
+                                            setDeletedSkills={setDeletedSkills}
+                                        />
+                                    ),
+                                    ClearIndicator: (props) => (
+                                        <ClearTalentSkills
+                                            {...props}
+                                            skills={skills}
+                                            clearValue={handleClear}
+                                        />
+                                    ),
+                                }}
                             />
                         </>
                     ) : (
-                        profile.links?.map((link, talent) => (
+                        (profile.links?.map((link, talent) => (
                             <a className={s.link} href={link} key={talent}>
                                 {link.includes("linkedin") ? (
                                     <img
@@ -313,6 +396,15 @@ export const TalentData = forwardRef((props, ref) => {
                                     />
                                 )}
                             </a>
+                        )),
+                        (
+                            <div className={s.skills}>
+                                {props.skills.map((skill, index) => (
+                                    <div className={s.skill} key={index}>
+                                        {skill.label || skill.skill}
+                                    </div>
+                                ))}
+                            </div>
                         ))
                     )}
                 </div>

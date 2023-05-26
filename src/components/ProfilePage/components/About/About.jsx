@@ -23,6 +23,8 @@ export const About = forwardRef((props, ref) => {
         contacts,
         setContacts,
         saveError,
+        skills,
+        setSkills,
     } = props;
 
     const validateAbout = useCallback(() => {
@@ -56,6 +58,7 @@ export const About = forwardRef((props, ref) => {
         }),
         [validateAbout]
     );
+
     return (
         <div className={s.about}>
             <button
@@ -202,7 +205,10 @@ export const About = forwardRef((props, ref) => {
             {editting ? (
                 <div className={s.btns}>
                     <Button
-                        onClick={() => setCancelModalIsOpen(true)}
+                        onClick={() => {
+                            setCancelModalIsOpen(true);
+                            setSkills(skills);
+                        }}
                         className={s.btn}
                     >
                         Cancel
